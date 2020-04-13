@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Barcode scan</string>
+    <string name="default_error">Что-то пошло не так</string>
+    <string name="product_price_added">Вы оценили товар в %d рублей. Ваши цены будут отображаться в карточке товара</string>
+    <string name="scan_hint"><![CDATA[<b>Новинка!</b> Сканируйте штрихкоды<br>и получайте бонусы за покупку товаров<br>от производителей]]></string>
+    <string name="no_product_hint">Видимо, вы отсканировали что-то уникальное. Его нет в базе, но вы можете его добавить</string>
+    <string name="no_product_text">Товар не найден</string>
+    <string name="more_count">+ %d</string>
+    <string name="more_reviews">Еще %d</string>
+</resources>

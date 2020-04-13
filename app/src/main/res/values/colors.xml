@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#B3000000</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="dark_transparent">#8A000000</color>
+    <color name="shop_item_divider">#F4F6FA</color>
+    <color name="light_blue">#2A83FF</color>
+    <color name="light_grey">#1A221A44</color>
+    <color name="yellow">#FFE249</color>
+    <color name="darker_yellow">#FCD846</color>
+    <color name="opacity_yellow">#1AFFE249</color>
+    <color name="hint_color">#9B9AA9</color>
+</resources>

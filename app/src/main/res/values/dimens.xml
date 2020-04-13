@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_margin">6dp</dimen>
+    <dimen name="middle_magin">10dp</dimen>
+    <dimen name="progressbar_size">26dp</dimen>
+    <dimen name="dialog_content_side_margin">24dp</dimen>
+</resources>

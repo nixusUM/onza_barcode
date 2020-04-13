@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.hannesdorfmann:adapterdelegates4:4.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e17ef789fdc5af95a238cf906119886/adapterdelegates4-4.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e17ef789fdc5af95a238cf906119886/adapterdelegates4-4.0.0/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann/adapterdelegates4/4.0.0/b4c0c7c611546862c7f27b3a82581611b1433a6d/adapterdelegates4-4.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.hannesdorfmann/adapterdelegates4/4.0.0/a8d90fb2e6148f71f610dde447b7d8ea2d7fc1c2/adapterdelegates4-4.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
