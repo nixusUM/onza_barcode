@@ -1,5 +1,6 @@
 package com.onza.barcode.adapters
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.esafirm.imagepicker.model.Image
@@ -38,7 +39,11 @@ open class SimpleAdapter(
 
     fun removeItem(postion: Int) {
         var scannedProducts = items as MutableList<Any>
-        this.items.removeAt(postion)
+        try {
+            this.items.removeAt(postion)
+        } catch (ex: IndexOutOfBoundsException) {
+            Log.i("exIndex: ", ex.message)
+        }
         if (this.items.isNotEmpty()) {
             notifyDataSetChanged()
         }

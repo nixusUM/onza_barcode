@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import com.alterevit.gorodminiapp.library.MiniAppCallback
 import com.google.android.material.snackbar.Snackbar
 import com.onza.barcode.R
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.ProductDetail
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.fragment_about_product.*
 import kotlinx.android.synthetic.main.item_properties.view.*
 import kotlinx.android.synthetic.main.view_product_properties.view.*
@@ -24,6 +26,13 @@ class AboutFragment : Fragment(), AboutFragmentView {
     private lateinit var presenter: AboutFragmentPresenter
     private lateinit var selectdProduct: Product
 
+    private var eventListener: MiniAppCallback? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        eventListener = context as? MiniAppCallback
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_about_product, container, false)
     }
@@ -31,8 +40,13 @@ class AboutFragment : Fragment(), AboutFragmentView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter = AboutFragmentPresenter(this, activity!!)
         selectdProduct = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
-        presenter.getProductDetail(selectdProduct.id)
+        if (Utils().isInternetAvailable()) {
+            presenter.getProductDetail(selectdProduct.id)
+        } else {
+            showError(getString(R.string.no_connection_message))
+        }
         view_back.setOnClickListener { activity!!.onBackPressed() }
+        eventListener!!.logEvent("ProductMore", "GoodsInfo", "goods_info", null)
     }
 
     override fun showError(text: String?) {

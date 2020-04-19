@@ -25,16 +25,29 @@ class PricesDelegate(context: Context, val callback: ItemClick)
         if (item.branch != null) {
             holder.address.text = item.branch.address
             holder.distance.text = item.branch.distance
-        }
-        holder.shopTitle.text = item.name
 
-        if (item.logo != null) {
+            var categoryImage = context.getDrawable(R.drawable.ic_zagushka)
+
+            if (item.branch.category != null) {
+                categoryImage = when (item.branch.category) {
+                    "alkogolnie napitky" -> context.getDrawable(R.drawable.ic_alkogolnie_napitky)
+                    "apteka" -> context.getDrawable(R.drawable.ic_apteka)
+                    "bitovaya himia" -> context.getDrawable(R.drawable.ic_bitovaya_himia)
+                    "gipermarkety" -> context.getDrawable(R.drawable.ic_gipermarkety)
+                    "optika" -> context.getDrawable(R.drawable.ic_optika)
+                    "prodovolstvennye magaziny" -> context.getDrawable(R.drawable.ic_prodovolstvennye_magaziny)
+                    "supermarketi" -> context.getDrawable(R.drawable.ic_supermarketi)
+                    else -> context.getDrawable(R.drawable.ic_zagushka)
+                }
+            }
+
             Glide.with(context)
-                .load(item.logo.url)
-                .centerCrop()
+                .load(categoryImage)
                 .placeholder(R.drawable.ic_no_product_grey)
                 .into(holder.shopImage)
+
         }
+        holder.shopTitle.text = item.name
     }
 
     override fun isForViewType(item: Any?): Boolean = item is Price

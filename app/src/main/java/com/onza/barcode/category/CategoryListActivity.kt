@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
@@ -16,6 +18,7 @@ import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.CategoryInListDelegate
 import com.onza.barcode.data.model.Category
 import com.onza.barcode.dialogs.addProduct.AddProductDialog
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_all_categories.*
 
 /**
@@ -34,14 +37,26 @@ class CategoryListActivity: BottomSheetDialogFragment(), CategoryListView, Categ
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_all_categories, container, false)
+        dialog?.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val sheetInternal: View = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+            BottomSheetBehavior.from(sheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        val view = inflater.inflate(R.layout.activity_all_categories, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter = CategoryListActivityPresenter(this, context!!)
         view_back.setOnClickListener { parentFragment!!.childFragmentManager.popBackStack() }
 
-        presenter.getCategories()
+        if (Utils().isInternetAvailable()) {
+            presenter.getCategories()
+        } else {
+            showCategoryList(ArrayList<Category>())
+            showError(getString(R.string.no_connection_message))
+        }
 
         edt_search.addTextChangedListener((object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

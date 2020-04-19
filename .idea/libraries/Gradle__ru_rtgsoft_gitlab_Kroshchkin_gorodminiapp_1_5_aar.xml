@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: ru.rtgsoft.gitlab.Kroshchkin:gorodminiapp:1.5@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/eb88083633291d0f4beae5175115ed12/gorodminiapp-1.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/eb88083633291d0f4beae5175115ed12/gorodminiapp-1.5/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.rtgsoft.gitlab.Kroshchkin/gorodminiapp/1.5/57c0344071dea900568a46c0127f9e9f88152d32/gorodminiapp-1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,5 +1,6 @@
 package com.onza.barcode.fragments
 
+import com.onza.barcode.data.model.CompareImages
 import com.onza.barcode.data.model.FavouritesResponse
 
 
@@ -10,6 +11,6 @@ import com.onza.barcode.data.model.FavouritesResponse
 interface BarCodeView {
 
     fun showError(text: String?)
-    fun addScannedProduct(product: Any)
+    fun addScannedProduct(product: Any, recognized: Boolean, compareImages: List<CompareImages>?)
     fun showFavouriteView(products: List<FavouritesResponse>)
 }

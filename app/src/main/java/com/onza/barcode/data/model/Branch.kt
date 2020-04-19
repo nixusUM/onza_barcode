@@ -9,4 +9,5 @@ import java.io.Serializable
 data class Branch(val id: Int,
                   val distance: String,
                   val address: String?,
+                  val category: String?,
                   val location: Location): Serializable

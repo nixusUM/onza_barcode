@@ -16,6 +16,7 @@ import com.onza.barcode.compare.products.CompareProdutsFragment
 import com.onza.barcode.data.model.CompareCategories
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.utils.RecyclerTouchListener
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activty_compare.*
 
 /**
@@ -49,7 +50,13 @@ class CompareFragment: Fragment(), CompareView, CompareListDelegate.ItemClick {
 //        setStatusBarColor()
         cardView_scan.setOnClickListener { activity!!.onBackPressed() }
         view_back.setOnClickListener { activity!!.onBackPressed() }
-        presenter.getCompares()
+
+        if (Utils().isInternetAvailable()) {
+            presenter.getCompares()
+        } else {
+            showCompareCategories(ArrayList<CompareCategories>())
+            showError(getString(R.string.no_connection_message))
+        }
     }
 
     fun showError(text: String?) {
@@ -122,8 +129,7 @@ class CompareFragment: Fragment(), CompareView, CompareListDelegate.ItemClick {
     }
 
     override fun onCompareClicked(id: Int, name: String) {
-        eventListener!!.pushFragment(CompareProdutsFragment.getInstance(id, name))
-//        presenter.navigateToCompareProductScreen(id, name)
+        eventListener!!.pushFragment(CompareProdutsFragment.getInstance(id, name, 0))
     }
 
 }

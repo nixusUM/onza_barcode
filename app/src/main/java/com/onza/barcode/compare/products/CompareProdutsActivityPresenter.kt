@@ -16,8 +16,7 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class CompareProdutsActivityPresenter(val view: CompareProdutsView,
-                                      val context: Context
-) {
+                                      val context: Context) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -29,13 +28,35 @@ class CompareProdutsActivityPresenter(val view: CompareProdutsView,
         apiService = ApiServiceCreator.createService(gson, context)
     }
 
-    fun getComparesProducts(categoryId: Int) {
-        apiService.getCompareProducts(categoryId)
+    fun getComparesProducts(categoryId: Int, productId: Int) {
+        apiService.getCompareProductsByProduct(categoryId, productId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    view.showCompareProducts(prepareItems(it.body()!!.data!!))
+                    if (it.body()!!.data!!.details.isNotEmpty()) {
+                        view.showCompareProducts(prepareItems(it.body()!!.data!!))
+                    } else {
+                        view.showPlaceHolderView()
+                    }
+                },
+                {
+                    Log.i("error:", it.toString())
+                    view.showMessage(it.toString())
+                })
+    }
+
+    fun removeProductFromCompare(productId: Int) {
+        apiService.deleteComapreProduct(productId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+//                    if (it.body()!!.data!!.details.isNotEmpty()) {
+//                        view.showCompareProducts(prepareItems(it.body()!!.data!!))
+//                    } else {
+//                        view.showPlaceHolderView()
+//                    }
                 },
                 {
                     Log.i("error:", it.toString())

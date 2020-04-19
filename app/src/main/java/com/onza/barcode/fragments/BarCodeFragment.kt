@@ -40,6 +40,8 @@ import com.onza.barcode.R
 import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.NoProductDelegate
 import com.onza.barcode.adapters.delegates.ProductDelegate
+import com.onza.barcode.compare.CompareFragment
+import com.onza.barcode.data.model.CompareImages
 import com.onza.barcode.data.model.FavouritesResponse
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.dialogs.addPrice.AddPriceDialog
@@ -55,6 +57,9 @@ import kotlinx.android.synthetic.main.dialog_review_submit.*
 import kotlinx.android.synthetic.main.fragment_barcode.*
 import kotlinx.android.synthetic.main.item_product_logo.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.*
+import kotlinx.android.synthetic.main.view_favourite_products.view.txt_more_Count
+import kotlinx.android.synthetic.main.view_favourite_products.view.view_logo
+import kotlinx.android.synthetic.main.view_product_compare.view.*
 import kotlin.math.roundToInt
 
 /**
@@ -232,7 +237,11 @@ class BarCodeFragment: Fragment(), BarCodeView,
         progressBar.visibility = View.VISIBLE
         this.gtin = gtin
         obtieneLocalizacion()
-        presenter.getProductByBarCode(gtin, lat, lon)
+        if (Utils().isInternetAvailable()) {
+            presenter.getProductByBarCode(gtin, lat, lon)
+        } else {
+            showError(getString(R.string.no_connection_message))
+        }
     }
 
     override fun showError(text: String?) {
@@ -249,7 +258,13 @@ class BarCodeFragment: Fragment(), BarCodeView,
         }
     }
 
-    override fun addScannedProduct(product: Any) {
+    override fun addScannedProduct(product: Any, recognized: Boolean, compareImages: List<CompareImages>?) {
+        sendProductEvent(product, recognized)
+        if (!compareImages.isNullOrEmpty()) {
+            initCompareListView(compareImages)
+        } else {
+            view_compare_list.visibility = View.GONE
+        }
         textView_hint.text = "Продолжайте сканирование"
         progressBar.visibility = View.GONE
         if (list_scanned.visibility == View.GONE) {
@@ -259,6 +274,87 @@ class BarCodeFragment: Fragment(), BarCodeView,
         var adapter = list_scanned.adapter as SimpleAdapter
         adapter.addItem(product, savedPosition)
         list_scanned.smoothScrollToPosition(adapter.itemCount - 1)
+    }
+
+    private fun initCompareListView(compareImages: List<CompareImages>) {
+        view_compare_list.findViewById<CardView>(R.id.cardView_favourite).removeAllViews()
+        val productLogo = creteCompareListView(compareImages)
+        view_compare_list.findViewById<CardView>(R.id.cardView_favourite).addView(productLogo)
+        view_compare_list.visibility = View.VISIBLE
+    }
+
+    private fun creteCompareListView(images: List<CompareImages>): ConstraintLayout {
+        val linflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val lyt = linflater.inflate(R.layout.view_product_compare, null) as ConstraintLayout
+        val params = LinearLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+        lyt.layoutParams = params
+
+        var showMoreCount = false
+
+        lyt.view_logo.removeAllViews()
+
+        val marginNext = Utils().dpToPx(-8, context!!)
+
+        for (i in images!!.indices) {
+            if (i < 6) {
+                var logoView = if (i == 0) {
+                    createLogos(images[i].image, 0)
+                } else {
+                    createLogos(images[i].image, marginNext)
+                }
+                lyt.view_logo.addView(logoView)
+            } else {
+                showMoreCount = true
+            }
+        }
+
+        if (showMoreCount) {
+            lyt.txt_more_Count.visibility = View.VISIBLE
+            lyt.txt_more_Count.text  = getString(R.string.more_count, images.size - 6)
+        }
+
+        lyt.cardView_to_compare.setOnClickListener {
+            eventListener!!.pushFragment(CompareFragment())
+        }
+
+        return lyt
+    }
+
+    private fun createLogos(url: String?, margin: Int): ConstraintLayout {
+        val linflater = activity!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val lyt = linflater.inflate(R.layout.item_product_logo, null) as ConstraintLayout
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT)
+
+        params.setMargins(margin, 0, 0, 0)
+        lyt.layoutParams = params
+
+        lyt.product_logo.borderColor = ContextCompat.getColor(context!!, R.color.yellow)
+        lyt.product_logo.borderWidth = 3
+        if (!url.isNullOrEmpty()) {
+            Glide.with(context!!)
+                .load(url)
+                .centerCrop()
+                .placeholder(R.drawable.ic_no_rpoduct_png)
+                .into(lyt.product_logo)
+        } else {
+            lyt.product_logo.setCircleBackgroundColorResource(R.color.ef_white)
+        }
+
+        return lyt
+    }
+
+    private fun sendProductEvent(product: Any, recognized: Boolean) {
+        if (recognized) {
+            val recognizedProduct = product as Product
+            eventListener!!.logEvent("ProductScan", "GoodsScan", "success_scan", recognizedProduct.id.toLong())
+        } else {
+            eventListener!!.logEvent("ProductScan", "GoodsScan", "not_found_scan", null)
+        }
     }
 
     private fun initScannedProductList(list: List<Any>) {
@@ -400,7 +496,15 @@ class BarCodeFragment: Fragment(), BarCodeView,
             )
             this.dialog.txt_add.setTextColor(ContextCompat.getColor(activity!!, android.R.color.black))
             dialog.view_add_product.setOnClickListener {
-                presenter.addToFavourites(selectedProduct.id, this.dialog.product_count.text.toString().toInt())
+                if (Utils().isInternetAvailable()) {
+                    eventListener!!.logEvent("", "GoodsList", null, null)
+                    presenter.addToFavourites(
+                        selectedProduct.id,
+                        this.dialog.product_count.text.toString().toInt()
+                    )
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                }
                 this.dialog.dismiss()
             }
         } else {
@@ -469,7 +573,6 @@ class BarCodeFragment: Fragment(), BarCodeView,
         val productLogo = createFavouriteView(products)
         view_favourite_list.findViewById<CardView>(R.id.cardView_favourite).addView(productLogo)
         view_favourite_list.visibility = View.VISIBLE
-
     }
 
     private fun createFavouriteView(products: List<FavouritesResponse>): ConstraintLayout {

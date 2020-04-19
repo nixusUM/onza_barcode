@@ -27,10 +27,10 @@ class ShopDelegate(context: Context, val callback: ItemClick)
         holder.title.text = item.name
         holder.distance.text = "~ " + item.branch.distance
 
-        val categoryImage = context.getDrawable(R.drawable.ic_zagushka)
+        var categoryImage = context.getDrawable(R.drawable.ic_zagushka)
 
-        if (item.category != null) {
-            when (item.category) {
+        if (item.branch.category != null) {
+            categoryImage = when (item.branch.category) {
                 "alkogolnie napitky" -> context.getDrawable(R.drawable.ic_alkogolnie_napitky)
                 "apteka" -> context.getDrawable(R.drawable.ic_apteka)
                 "bitovaya himia" -> context.getDrawable(R.drawable.ic_bitovaya_himia)

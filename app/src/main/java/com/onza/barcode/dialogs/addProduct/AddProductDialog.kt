@@ -1,5 +1,6 @@
 package com.onza.barcode.dialogs.addProduct
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +10,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alterevit.gorodminiapp.library.MiniAppCallback
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.onza.barcode.R
@@ -19,6 +23,7 @@ import com.onza.barcode.adapters.delegates.ProductImageDelegate
 import com.onza.barcode.category.CategoryListActivity
 import com.onza.barcode.fragments.BarCodeFragment
 import com.onza.barcode.shop.ShopActivity
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_product.*
 
 /**
@@ -34,6 +39,13 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
     private var shopid = 0
     private var categoryId = 0
 
+    private var eventListener: MiniAppCallback? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        eventListener = context as? MiniAppCallback
+    }
+
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
             .apply {
@@ -42,6 +54,11 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val sheetInternal: View = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+            BottomSheetBehavior.from(sheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
+        }
         return inflater.inflate(R.layout.dialog_add_product, container, false)
     }
 
@@ -67,6 +84,7 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
         view_cancel.setOnClickListener {
             this.dismiss()
         }
+
     }
 
     fun showError(text: String?) {
@@ -77,8 +95,9 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
         showError(text)
     }
 
-    override fun addedProduct(gtin: String) {
+    override fun addedProduct(gtin: String, id: Int) {
         if (parentFragment is BarCodeFragment) {
+            eventListener!!.logEvent("AddProduct", "GoodsAdd", "success_add",  id.toLong())
             val parentFragment = parentFragment as BarCodeFragment
             parentFragment.updateItem(gtin, arguments!!.getInt(POSITION))
             dismiss()
@@ -103,8 +122,12 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
                 ContextCompat.getDrawable(context!!, R.drawable.ic_price_enebled)
             )
             view_add_product.setOnClickListener {
-                presenter.postProduct(name.text.toString(), txt_barcode.text.toString(), txt_price.text.toString().toDouble(),
-                    categoryId, product_rating.rating.toInt(), shopid, storedImages)
+                if (Utils().isInternetAvailable()) {
+                    presenter.postProduct(name.text.toString(), txt_barcode.text.toString(), txt_price.text.toString().toDouble(),
+                        categoryId, product_rating.rating.toInt(), shopid, storedImages)
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                }
             }
         }
     }

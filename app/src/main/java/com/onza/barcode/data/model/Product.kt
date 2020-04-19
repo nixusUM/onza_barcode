@@ -22,5 +22,4 @@ data class Product(val id: Int,
                    val rating: Double,
                    val lists: Lists?,
                    val image: Image?,
-                   val compare_images: List<CompareImages>?,
                    val images: ArrayList<Image>?): Serializable

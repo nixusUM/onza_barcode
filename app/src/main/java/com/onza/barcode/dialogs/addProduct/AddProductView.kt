@@ -7,5 +7,5 @@ package com.onza.barcode.dialogs.addProduct
 interface AddProductView {
 
     fun showMessage(text: String?)
-    fun addedProduct(gtin: String)
+    fun addedProduct(gtin: String, id: Int)
 }

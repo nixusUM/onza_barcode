@@ -2,6 +2,7 @@ package com.onza.barcode.adapters.delegates
 
 import android.content.Context
 import android.graphics.Point
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,9 @@ import kotlinx.android.synthetic.main.view_product_properties.view.*
 
 class CompareProductDelegate(context: Context, val callback: ItemClick)
     : BaseDelegate<CompareProductDelegate.ViewHolder, Product>(context) {
+
+    private var maxHeight1 = 0
+    private var maxHeight2 = 0
 
     override fun onBindViewHolder(position: Int, item: Product, holder: ViewHolder, payloads: MutableList<Any>) {
         holder.name.text = item.name
@@ -59,6 +63,10 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
             val property = cratePropertyViews(detail, holder.adapterPosition)
             holder.propertyView.addView(property)
         }
+
+        holder.removeImage.setOnClickListener {
+            callback.removeProduct(item.id, holder.adapterPosition)
+        }
     }
 
     private fun cratePropertyViews(detail: CompareProperty, position: Int): LinearLayout {
@@ -75,14 +83,14 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
         lyt.lyt_properties.removeAllViews()
 
         for(property in detail.properties) {
-            val proertfds = createProperites(property, property.values[position].value)
+            val proertfds = createProperites(property, property.values[position].value, position)
             lyt.lyt_properties.addView(proertfds)
         }
 
         return lyt
     }
 
-    private fun createProperites(property: ProductCompareDetail, value: String): LinearLayout {
+    private fun createProperites(property: ProductCompareDetail, value: String, position: Int): LinearLayout {
         val linflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val lytProperty = linflater.inflate(R.layout.item_properties, null) as LinearLayout
         val params = LinearLayout.LayoutParams(
@@ -93,7 +101,41 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
         lytProperty.hint.text = property.title
         lytProperty.value.text = value
 
+        if (position == 0) {
+            lytProperty.hint.visibility = View.VISIBLE
+        } else {
+            lytProperty.hint.visibility = View.INVISIBLE
+        }
+
+        lytProperty.value.setOnClickListener {
+            if (lytProperty.value.isExpanded) {
+                lytProperty.value.collapse()
+            } else {
+                lytProperty.value.expand()
+            }
+        }
+
+//        if (position == 0) {
+//            maxHeight1 = getHeightOfView(lytProperty)
+//        }
+//
+//        if (position == 1) {
+//            maxHeight2 = getHeightOfView(lytProperty)
+//        }
+//
+//        Log.i("position:", position.toString())
+//        if (maxHeight1 < maxHeight2) {
+//            lytProperty.layoutParams.height = maxHeight2
+//        } else {
+//            lytProperty.layoutParams.height = maxHeight1
+//        }
+
         return lytProperty
+    }
+
+    private fun getHeightOfView(contentview: View): Int {
+        contentview.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        return contentview.measuredHeight
     }
 
     private fun getScreenWidth(): Int {
@@ -123,9 +165,10 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
         val titleReview: TextView = rootView.title_count_review
         val reviews: TextView = rootView.textView_reviews
         val propertyView: LinearLayout = rootView.view_product_data
+        val removeImage: ImageView = rootView.remove
     }
 
     interface ItemClick {
-        fun removeProduct(position: Int)
+        fun removeProduct(productId: Int, position: Int)
     }
 }

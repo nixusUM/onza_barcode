@@ -67,7 +67,14 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
         presenter = HistoryActivityPresenter(this, context!!)
         cardView_scan.setOnClickListener { activity!!.onBackPressed() }
         view_back.setOnClickListener { activity!!.onBackPressed() }
-        presenter.getScanHistory(1)
+        if (Utils().isInternetAvailable()) {
+            presenter.getScanHistory(1)
+        } else {
+            showError(getString(R.string.no_connection_message))
+            showProductHistory(ArrayList())
+        }
+
+        eventListener!!.logEvent("AddProHistoryProductScanduct", "GoodsHistory", null,  null)
     }
 
     override fun onAddToFavourite(selectedProduct: Product) {
@@ -123,7 +130,12 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
             )
             this.dialog.txt_add.setTextColor(ContextCompat.getColor(context!!, android.R.color.black))
             dialog.view_add_product.setOnClickListener {
-                presenter.addToFavourites(selectedProduct.id, this.dialog.product_count.text.toString().toInt())
+                eventListener!!.logEvent("", "GoodsList", null, null)
+                if (Utils().isInternetAvailable()) {
+                    presenter.addToFavourites(selectedProduct.id, this.dialog.product_count.text.toString().toInt())
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                }
                 this.dialog.dismiss()
             }
         } else {
@@ -215,7 +227,6 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
         val productLogo = createFavouriteView(products)
         view_favourite_list.findViewById<CardView>(R.id.cardView_favourite).addView(productLogo)
         view_favourite_list.visibility = View.VISIBLE
-
     }
 
     private fun createFavouriteView(products: List<FavouritesResponse>): ConstraintLayout {

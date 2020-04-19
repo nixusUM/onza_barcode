@@ -21,6 +21,7 @@ import com.onza.barcode.base.BaseActivity
 import com.onza.barcode.data.Price
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.dialogs.addPrice.AddPriceDialog
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_price.*
 
 /**
@@ -87,7 +88,12 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
                     lat = location.latitude
                     lon = location.longitude
                 }
-                presenter.getProductPrices(selectedProduct.id, lat, lon)
+                if (Utils().isInternetAvailable()) {
+                    presenter.getProductPrices(selectedProduct.id, lat, lon)
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                    showProductPrices(ArrayList<Price>())
+                }
             }
     }
 

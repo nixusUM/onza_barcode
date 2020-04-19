@@ -2,14 +2,12 @@ package com.onza.barcode.product.list
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -24,11 +22,10 @@ import com.onza.barcode.R
 import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.CategoryDelegate
 import com.onza.barcode.adapters.delegates.ProductInListDelegate
-import com.onza.barcode.base.BaseActivity
 import com.onza.barcode.data.model.FavouriteProducts
 import com.onza.barcode.data.model.FavouritesResponse
 import com.onza.barcode.data.model.Product
-import com.onza.barcode.main.MainActivity
+import com.onza.barcode.history.HistoryFragment
 import com.onza.barcode.product.detail.ProductDetaislFragment
 import com.onza.barcode.utils.RecyclerTouchListener
 import com.onza.barcode.utils.Utils
@@ -68,7 +65,12 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter = ProductListActivityPresenter(this, context!!)
         view_back.setOnClickListener { activity!!.onBackPressed() }
-        presenter.getFavouriteList()
+        if (Utils().isInternetAvailable()) {
+            presenter.getFavouriteList()
+        } else {
+            showError(getString(R.string.no_connection_message))
+            showFavourites(ArrayList<Any>())
+        }
     }
 
     override fun showFavourites(favouriteList: List<Any>) {
@@ -123,6 +125,9 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
         }
 
         list_favourites.addOnItemTouchListener(touchListener)
+        cardView_scan.setOnClickListener {
+            eventListener!!.pushFragment(HistoryFragment())
+        }
     }
 
     private fun showEditCountDialog(selectedProduct: Product, favouriteProductCount: Int) {

@@ -44,7 +44,7 @@ dependencies {
 
     implementation 'com.hannesdorfmann:adapterdelegates4:4.0.0'
 
-    implementation 'ru.rtgsoft.gitlab.Kroshchkin:gorodminiapp:1.4'
+    implementation 'ru.rtgsoft.gitlab.Kroshchkin:gorodminiapp:1.5'
 
     //ImagePicker
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.0.0'

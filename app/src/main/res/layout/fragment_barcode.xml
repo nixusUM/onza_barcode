@@ -191,6 +191,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
+        android:id="@+id/view_compare_list"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        layout="@layout/view_product_compare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </include>
+
+    <include
         android:id="@+id/view_favourite_list"
         android:visibility="gone"
         android:layout_marginBottom="8dp"

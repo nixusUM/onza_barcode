@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmotionSelector">
+        <attr name="activeImage" format="reference"/>
+        <attr name="inactiveImage" format="reference"/>
+        <attr name="titleText" format="reference"/>
+    </declare-styleable>
+<!--    <declare-styleable name="ExpandableTextView">-->
+<!--        <attr name="trimLength" format="integer"/>-->
+<!--    </declare-styleable>-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="animation_duration" format="integer"/>
+    </declare-styleable>
+</resources>

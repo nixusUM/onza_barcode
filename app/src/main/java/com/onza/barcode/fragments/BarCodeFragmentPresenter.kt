@@ -35,8 +35,8 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
                 {
                     Log.i("subscribeApi", it.toString())
                     when (it.code()) {
-                        404 -> view.addScannedProduct(NoProduct("temp"))
-                        200 -> view.addScannedProduct(it.body()!!.data!!.product)
+                        404 -> view.addScannedProduct(NoProduct("temp"), false, null)
+                        200 -> view.addScannedProduct(it.body()!!.data!!.product, true, it.body()!!.data!!.compare_images)
                     }
                 },
                 {
@@ -52,7 +52,7 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
             .subscribe (
                 {
                     Log.i("aa:", it.toString())
-                    view.showFavouriteView(it.body()!!.data!!)
+//                    view.showFavouriteView(it.body()!!.data!!)
                 },
                 {
                     Log.i("error:", it.toString())

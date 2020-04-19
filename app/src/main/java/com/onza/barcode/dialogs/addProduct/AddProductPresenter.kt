@@ -80,7 +80,7 @@ class AddProductPresenter(val view: AddProductView, val context: Context, val fr
                 {
                     when (it.code()) {
                         400 -> view.showMessage(it.errorBody()!!.string().toString())
-                        200 -> view.addedProduct(it.body()!!.data!!.gtin!!)
+                        200 -> view.addedProduct(it.body()!!.data!!.gtin!!, it.body()!!.data!!.id)
                     }
 
                 },

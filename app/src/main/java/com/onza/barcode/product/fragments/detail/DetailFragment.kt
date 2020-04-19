@@ -19,6 +19,7 @@ import com.onza.barcode.R
 import com.onza.barcode.adapters.ViewPagerPhotoAdapter
 import com.onza.barcode.adapters.delegates.ReviewsDelegate
 import com.onza.barcode.compare.CompareFragment
+import com.onza.barcode.compare.products.CompareProdutsFragment
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Reviews
 import com.onza.barcode.dialogs.addPrice.AddPriceDialog
@@ -27,6 +28,7 @@ import com.onza.barcode.prices.PricesFragment
 import com.onza.barcode.product.fragments.AboutFragment
 import com.onza.barcode.reviews.ReviewsFragment
 import com.onza.barcode.utils.LinePagerIndicatorDecoration
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_product_to_list.*
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.fragment_product_detail.textView_name
@@ -62,22 +64,31 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter = DetailFragmentPresenter(this, activity!!)
-        selectdProduct = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
-        if (selectdProduct.lists == null) {
-            presenter.getProductByBarCode(selectdProduct.gtin!!, 0.0, 0.0)
+        val product = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
+
+//        if (selectdProduct.lists == null) {
+        if (Utils().isInternetAvailable()) {
+            presenter.getProductById(product.id, 0.0, 0.0)
+            presenter.onViewCreated(product.id)
         } else {
-            initProductData(selectdProduct)
+            showError(getString(R.string.no_connection_message))
         }
-        presenter.onViewCreated(selectdProduct.id)
+
+//        } else {
+//            initProductData(selectdProduct)
+//        }
         view_back.setOnClickListener { activity!!.onBackPressed() }
     }
 
     override fun initProductData(selectedProduct: Product) {
+        this.selectdProduct = selectedProduct
         if (progressBar == null) {
             return
         }
         progressBar.visibility = View.GONE
+
         this.selectdProduct = selectedProduct
+
         var priceText = "Цена"
         view_show_about.setOnClickListener {
             eventListener!!.pushFragment(AboutFragment.getInstance(selectdProduct))
@@ -88,20 +99,20 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         gtin_product.text = selectdProduct.gtin
 
         textView_compare.setOnClickListener {
-            eventListener!!.pushFragment(CompareFragment())
+            eventListener!!.pushFragment(CompareProdutsFragment.getInstance(selectdProduct.category!!.id, selectdProduct.category!!.name, selectdProduct.id))
         }
 
         if (selectdProduct.lists!!.in_compare) {
             txt_add_compare.visibility = View.GONE
-            txt_remove_compare.visibility = View.VISIBLE
-            remove_compare.visibility = View.VISIBLE
-            remove_compare.setOnClickListener {
-
-            }
+            view_remove_from_compare.visibility = View.VISIBLE
+        } else {
+            txt_add_compare.visibility = View.VISIBLE
+            view_remove_from_compare.visibility = View.GONE
         }
+
         view_review_count.setOnClickListener { eventListener!!.pushFragment(ReviewsFragment.getInstance(selectdProduct)) }
-        cardView_post_review.setOnClickListener { eventListener!!.pushFragment(ReviewsFragment.getInstance(selectdProduct)) }
         product_rating.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
+        cardView_post_review.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
         if (selectdProduct.avg_price != null && selectdProduct.avg_price != 0f) {
             view_price_detail.visibility = View.VISIBLE
             textView_price_detail.text = "~ " + String.format("%.2f", selectdProduct.avg_price) + " Р"
@@ -136,12 +147,15 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         }
 
         txt_add_compare.setOnClickListener {
-            presenter.addToCompareList(selectedProduct.id, selectedProduct.gtin!!)
+            eventListener!!.logEvent("AddProductComparison", "GoodsCompare", null, selectedProduct.id.toLong())
+            presenter.addToCompareList(selectedProduct.id)
         }
 
-        txt_remove_compare.setOnClickListener {
-            presenter.removeFromComareList(selectedProduct.id, selectedProduct.gtin!!)
+        view_remove_from_compare.setOnClickListener {
+            presenter.removeFromComareList(selectedProduct.id)
         }
+
+        eventListener!!.logEvent("OpenProduct", "GoodsInfo", "goods_info", null)
     }
 
     private fun initPhotosViewPager() {
@@ -158,8 +172,8 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         }
     }
 
-    fun refreshProductDetailData(gtin: String, lat: Double, lon: Double) {
-        presenter.getProductByBarCode(gtin, lat, lon)
+    fun refreshProductDetailData(id: Int, lat: Double, lon: Double) {
+        presenter.getProductById(id, lat, lon)
         presenter.onViewCreated(selectdProduct.id)
     }
 
@@ -239,6 +253,7 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
             )
             this.dialog.txt_add.setTextColor(ContextCompat.getColor(activity!!, android.R.color.black))
             dialog.view_add_product.setOnClickListener {
+                eventListener!!.logEvent("", "GoodsList", null, null)
                 presenter.addToFavourites(selectdProduct.id, this.dialog.product_count.text.toString().toInt())
                 this.dialog.dismiss()
             }
@@ -256,6 +271,9 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
     }
 
     override fun showError(text: String?) {
+        if (progressBar != null) {
+            progressBar.visibility = View.GONE
+        }
         if(text != null) {
             Snackbar
                 .make(rootView, text, Snackbar.LENGTH_SHORT)

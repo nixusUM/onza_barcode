@@ -43,26 +43,26 @@ class DetailFragmentPresenter(val view: DetailFragmentView, val activity: Fragme
                 })
     }
 
-    fun addToCompareList(id: Int, gtin: String) {
+    fun addToCompareList(id: Int) {
         apiService.addToCompareProduct(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
                 {
-                    getProductByBarCode(gtin, 0.0, 0.0)
+                    getProductById(id, 0.0, 0.0)
                 },
                 {
                     errorHandling(it)
                 })
     }
 
-    fun removeFromComareList(id: Int, gtin: String) {
+    fun removeFromComareList(id: Int) {
         apiService.deleteComapreProduct(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
                 {
-                    getProductByBarCode(gtin, 0.0, 0.0)
+                    getProductById(id, 0.0, 0.0)
                 },
                 {
                     errorHandling(it)
@@ -93,8 +93,8 @@ class DetailFragmentPresenter(val view: DetailFragmentView, val activity: Fragme
         view.showError(t.toString())
     }
 
-    fun getProductByBarCode(gtin: String, lat: Double, lon: Double) {
-        apiService.getProductByBarCode(gtin, lat, lon)
+    fun getProductById(productId: Int, lat: Double, lon: Double) {
+        apiService.getProductById(productId, lat, lon)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (

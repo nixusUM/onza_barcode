@@ -1,6 +1,7 @@
 package com.onza.barcode.dialogs.addPrice
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +11,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alterevit.gorodminiapp.library.MiniAppCallback
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
@@ -25,6 +29,7 @@ import com.onza.barcode.fragments.BarCodeFragment
 import com.onza.barcode.prices.PricesFragment
 import com.onza.barcode.product.fragments.detail.DetailFragment
 import com.onza.barcode.shop.ShopActivity
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_price.*
 import kotlinx.android.synthetic.main.fragment_add_price.*
 import kotlinx.android.synthetic.main.fragment_add_price.edt_price
@@ -49,6 +54,13 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     private var lat = 0.0
     private var lon = 0.0
 
+    private var eventListener: MiniAppCallback? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        eventListener = context as? MiniAppCallback
+    }
+
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
             .apply {
@@ -57,7 +69,13 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_add_price, container, false)
+        dialog?.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val sheetInternal: View = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+            BottomSheetBehavior.from(sheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        val view = inflater.inflate(R.layout.dialog_add_price, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,6 +94,8 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
         view_cancel_price.setOnClickListener {
             this.dismiss()
         }
+
+        eventListener!!.logEvent("click_ProductCost", "GoodsPrice", null, selectdProduct.id.toLong())
     }
 
     @SuppressLint("MissingPermission")
@@ -87,7 +107,13 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
                     lon = location.longitude
                 }
 //                if (!selectdProduct.shops.isNullOrEmpty() || lat < 1.0) {?
+                if (Utils().isInternetAvailable()) {
                     presenter.getNeearShops(lat, lon)
+
+                } else {
+                    initShopList(ArrayList<Shop>())
+                    showError(getString(R.string.no_connection_message))
+                }
 //                } else {
 //                    initShopList(selectdProduct.shops)
 //                }
@@ -121,7 +147,21 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
                 ContextCompat.getDrawable(activity!!, R.drawable.ic_price_enebled)
             )
             view_add_price.setOnClickListener {
-                presenter.addPriceToProduct(selectdProduct.id, shop.branch.id, edt_price.text.toString().toFloat())
+                if (Utils().isInternetAvailable()) {
+                    eventListener!!.logEvent(
+                        "ProductCost",
+                        "GoodsPrice",
+                        null,
+                        edt_price.text.toString().toLong()
+                    )
+                    presenter.addPriceToProduct(
+                        selectdProduct.id,
+                        shop.branch.id,
+                        edt_price.text.toString().toFloat()
+                    )
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                }
             }
         }
     }
@@ -171,7 +211,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
             dismiss()
         } else {
             val parentFragment = parentFragment as DetailFragment
-            parentFragment.refreshProductDetailData(selectdProduct.gtin!!, lat, lon)
+            parentFragment.refreshProductDetailData(selectdProduct.id, lat, lon)
             dismiss()
         }
     }

@@ -8,6 +8,9 @@ import okhttp3.RequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.IOException
+import java.net.InetAddress
+import java.net.UnknownHostException
 
 
 /**
@@ -20,38 +23,27 @@ class Utils {
         return RequestBody.create(MediaType.parse("text/plain"), value)
     }
 
-    fun saveBitmapToFile(file: File): File? {
-        try {
-            val o = BitmapFactory.Options()
-            o.inJustDecodeBounds = true
-            o.inSampleSize = 6
+    fun saveBitmapToFile(file: File, scaleTo: Int = 1000): File? {
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(file.absolutePath, bmOptions)
+        val photoW = bmOptions.outWidth
+        val photoH = bmOptions.outHeight
 
-            var inputStream = FileInputStream(file)
-            BitmapFactory.decodeStream(inputStream, null, o)
-            inputStream.close()
+        // Determine how much to scale down the image
+        val scaleFactor = Math.min(photoW / scaleTo, photoH / scaleTo)
 
-            val REQUIRED_SIZE = 75
+        bmOptions.inJustDecodeBounds = false
+        bmOptions.inSampleSize = scaleFactor
 
-            var scale = 1
-            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE) {
-                scale *= 2
-            }
-
-            val o2 = BitmapFactory.Options()
-            o2.inSampleSize = scale
-            inputStream = FileInputStream(file)
-
-            val selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2)
-            inputStream.close()
-
-            file.createNewFile()
-            val outputStream = FileOutputStream(file)
-
-            selectedBitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-            return file
-        } catch (e: Exception) {
-            return null
+        val resized = BitmapFactory.decodeFile(file.absolutePath, bmOptions)
+        file.outputStream().use {
+            resized.compress(Bitmap.CompressFormat.JPEG, 75, it)
+            resized.recycle()
         }
+
+        return file
+
     }
 
     fun dpToPx(dp: Int, context: Context): Int {
@@ -73,5 +65,12 @@ class Utils {
 
     }
 
-
+    fun isInternetAvailable(): Boolean {
+        try {
+            var command = "ping -c 1 google.com";
+            return Runtime.getRuntime().exec(command).waitFor() == 0
+        } catch (e: IOException) { // Log error
+        }
+        return false
+    }
 }

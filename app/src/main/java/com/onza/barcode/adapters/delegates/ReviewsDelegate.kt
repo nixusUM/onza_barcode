@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatRatingBar
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,27 @@ class ReviewsDelegate(context: Context, val callback: ItemClick)
     override fun onBindViewHolder(position: Int, item: Reviews, holder: ViewHolder, payloads: MutableList<Any>) {
         holder.rating.rating = item.rating
         holder.name.text = item.author.name
-        holder.text.text = item.text
+
+        if (item.positive_text.isNullOrEmpty()) {
+            holder.viewPositive.visibility = View.GONE
+        } else {
+            holder.viewPositive.visibility = View.VISIBLE
+            holder.textPositive.text = item.positive_text
+
+        }
+        if (item.negative_text.isNullOrEmpty()) {
+            holder.viewNegative.visibility = View.GONE
+        } else {
+            holder.viewNegative.visibility = View.VISIBLE
+            holder.textNegative.text = item.negative_text
+        }
+
+        if (item.positive_text.isNullOrEmpty() && item.negative_text.isNullOrEmpty()) {
+            holder.text.visibility = View.VISIBLE
+            holder.text.text = item.text
+        } else {
+            holder.text.visibility = View.GONE
+        }
 
         if (item.author.avatar_url != null) {
             Glide.with(context)
@@ -46,6 +67,10 @@ class ReviewsDelegate(context: Context, val callback: ItemClick)
         val rating: AppCompatRatingBar = rootView.rating
         val text: TextView = rootView.text
         val name: TextView = rootView.name
+        val textPositive: TextView = rootView.text_positive
+        val textNegative: TextView = rootView.text_negative
+        val viewPositive: LinearLayout = rootView.view_postive
+        val viewNegative: LinearLayout = rootView.view_negative
         val image: CircleImageView = rootView.imageView_photo
 
     }

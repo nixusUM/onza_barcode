@@ -66,9 +66,10 @@ class ReviewsInListDelegate(context: Context, val callback: ItemClick)
         val date: TextView = rootView.date
         val textPositive: TextView = rootView.text_positive
         val textNegative: TextView = rootView.text_negative
-        val text: TextView = rootView.text
         val viewPositive: LinearLayout = rootView.view_postive
         val viewNegative: LinearLayout = rootView.view_negative
+        val text: TextView = rootView.text
+
     }
 
     interface ItemClick {

@@ -18,6 +18,7 @@ import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Reviews
 import com.onza.barcode.dialogs.addReview.AddReviewDialog
 import com.onza.barcode.utils.RecyclerTouchListener
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_review.*
 
 /**
@@ -65,7 +66,12 @@ class ReviewsFragment: Fragment(), ReviewsView, ReviewsInListDelegate.ItemClick 
 
     override fun onResume() {
         super.onResume()
-        presenter.getReviews(selectdProduct.id, page)
+        if (Utils().isInternetAvailable()) {
+            presenter.getReviews(selectdProduct.id, page)
+        } else {
+            showError(getString(R.string.no_connection_message))
+            showReviews(ArrayList<Reviews>())
+        }
 
     }
 
@@ -139,6 +145,7 @@ class ReviewsFragment: Fragment(), ReviewsView, ReviewsInListDelegate.ItemClick 
                         lastFirstVisiblePosition = layoutManager.findLastVisibleItemPosition()
                         progressBar_endless.visibility = View.VISIBLE
                         paginationPge = true
+                        eventListener!!.logEvent("MoreReviews", "GoodsReview", null, (page + 1).toLong())
                         presenter.getReviews(selectdProduct.id, page + 1)
                     }
                 }

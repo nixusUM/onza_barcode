@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
@@ -21,6 +23,7 @@ import com.onza.barcode.adapters.delegates.AllShopsDelegate
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Shop
 import com.onza.barcode.dialogs.addProduct.AddProductDialog
+import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_shop.*
 
 /**
@@ -45,7 +48,13 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_shop, container, false)
+        dialog?.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val sheetInternal: View = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+            BottomSheetBehavior.from(sheetInternal).state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        val view = inflater.inflate(R.layout.activity_shop, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,7 +106,12 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
                     lat = location.latitude
                     lon = location.longitude
                 }
-                presenter.getNeearShops(lat, lon)
+                if (Utils().isInternetAvailable()) {
+                    presenter.getNeearShops(lat, lon)
+                } else {
+                    showError(getString(R.string.no_connection_message))
+                    showShopList(ArrayList<Shop>())
+                }
             }
     }
 

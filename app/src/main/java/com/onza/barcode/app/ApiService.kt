@@ -24,6 +24,11 @@ interface ApiService {
     fun getProductByBarCode(@Query("gtin") gtin: String, @Query("lat") lat: Double, @Query("lon") lon: Double)
             : Observable<Response<BaseResponse<ProductResponse>>>
 
+    @GET("products/{id}")
+    @Headers(AUTHORIZATION)
+    fun getProductById(@Path("id") id: Int, @Query("lat") lat: Double, @Query("lon") lon: Double)
+            : Observable<Response<BaseResponse<ProductResponse>>>
+
     @GET("products/{id}/prices")
     @Headers(AUTHORIZATION)
     fun getProductPrices(@Path("id") id: Int, @Query("lat") lat: Double, @Query("lon") lon: Double)
@@ -58,6 +63,10 @@ interface ApiService {
     @GET("persons/compare/categories/{id}/products")
     @Headers(AUTHORIZATION)
     fun getCompareProducts(@Path(value = "id") id: Int): Observable<Response<BaseResponse<CompareProducts>>>
+
+    @GET("persons/compare/categories/{id}/products")
+    @Headers(AUTHORIZATION)
+    fun getCompareProductsByProduct(@Path(value = "id") id: Int, @Query("target_product_id") targetId: Int): Observable<Response<BaseResponse<CompareProducts>>>
 
     @GET("products/{id}/details")
     @Headers(AUTHORIZATION)

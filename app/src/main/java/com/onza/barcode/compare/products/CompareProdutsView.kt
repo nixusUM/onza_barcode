@@ -10,4 +10,5 @@ interface CompareProdutsView {
 
     fun showCompareProducts(compareList: List<Product>)
     fun showMessage(text: String)
+    fun showPlaceHolderView()
 }
