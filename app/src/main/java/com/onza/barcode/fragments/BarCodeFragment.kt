@@ -18,6 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -85,6 +86,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
     private var eventListener: MiniAppCallback? = null
     private lateinit var prefs: SharedPreferences
     private var recyclerViewState: Parcelable? = null
+    private var isScanning = false
 
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
@@ -146,9 +148,11 @@ class BarCodeFragment: Fragment(), BarCodeView,
             codeScanner = CodeScanner(activity!!, scanner_view)
             codeScanner.isFlashEnabled = false
             codeScanner.scanMode = ScanMode.CONTINUOUS
+            codeScanner.isAutoFocusEnabled = true
             codeScanner.decodeCallback = DecodeCallback {
                 activity!!.runOnUiThread {
-                    if (gtin != it.text && !it.text.isNullOrEmpty()) {
+                    if (gtin != it.text && !it.text.isNullOrEmpty() && !isScanning) {
+                        isScanning = true
                         getProduct(it.text)
                     }
                 }
@@ -259,6 +263,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
     }
 
     override fun addScannedProduct(product: Any, recognized: Boolean, compareImages: List<CompareImages>?) {
+        isScanning = false
         sendProductEvent(product, recognized)
         if (!compareImages.isNullOrEmpty()) {
             initCompareListView(compareImages)
@@ -573,6 +578,20 @@ class BarCodeFragment: Fragment(), BarCodeView,
         val productLogo = createFavouriteView(products)
         view_favourite_list.findViewById<CardView>(R.id.cardView_favourite).addView(productLogo)
         view_favourite_list.visibility = View.VISIBLE
+    }
+
+    override fun showAttentionDialog(title: String, content: String) {
+        progressBar.visibility = View.GONE
+        isScanning = false
+        val dialog = AlertDialog.Builder(activity!!)
+            .setTitle(title)
+            .setMessage(content)
+            .setPositiveButton("OK") { dialog, _ ->
+                this.gtin = ""
+                dialog.dismiss()
+            }
+            .create()
+        dialog.show()
     }
 
     private fun createFavouriteView(products: List<FavouritesResponse>): ConstraintLayout {

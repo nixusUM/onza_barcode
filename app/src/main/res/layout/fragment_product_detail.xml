@@ -556,7 +556,7 @@
                         app:contentPaddingLeft="10dp"
                         app:contentPaddingTop="5dp"
                         app:contentPaddingBottom="5dp"
-                        app:cardElevation="1dp"
+                        app:cardElevation="0dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -696,11 +696,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="20dp"
-                        app:cardElevation="1dp"
                         app:contentPaddingBottom="5dp"
                         app:contentPaddingLeft="10dp"
                         app:contentPaddingRight="10dp"
                         app:contentPaddingTop="5dp"
+                        app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">

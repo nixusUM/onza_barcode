@@ -31,7 +31,7 @@ class Utils {
         val photoH = bmOptions.outHeight
 
         // Determine how much to scale down the image
-        val scaleFactor = Math.min(photoW / scaleTo, photoH / scaleTo)
+        val scaleFactor = Math.min(photoW / scaleTo, photoH / 768)
 
         bmOptions.inJustDecodeBounds = false
         bmOptions.inSampleSize = scaleFactor

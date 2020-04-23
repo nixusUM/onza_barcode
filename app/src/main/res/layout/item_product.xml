@@ -54,14 +54,15 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Неотрависил"
-                        android:maxWidth="180dp"
+                        android:maxWidth="175dp"
                         android:ellipsize="end"
-                        android:lines="1"
+                        android:maxLines="3"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/textView_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
                         android:layout_marginTop="8dp"
                         android:text="~155 Р"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -138,7 +139,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginEnd="12dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 app:cardBackgroundColor="@color/opacity_yellow"
                 app:cardCornerRadius="16dp"
                 app:contentPadding="18dp"
@@ -164,6 +165,7 @@
             </androidx.cardview.widget.CardView>
 
             <RelativeLayout
+                android:layout_marginTop="4dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginStart="12dp"

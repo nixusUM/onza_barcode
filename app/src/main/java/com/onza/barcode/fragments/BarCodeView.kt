@@ -13,4 +13,5 @@ interface BarCodeView {
     fun showError(text: String?)
     fun addScannedProduct(product: Any, recognized: Boolean, compareImages: List<CompareImages>?)
     fun showFavouriteView(products: List<FavouritesResponse>)
+    fun showAttentionDialog(title: String, content: String)
 }

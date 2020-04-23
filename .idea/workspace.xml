@@ -346,7 +346,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_9.0" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="PL2GAR9812103745" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -668,7 +668,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>432</line>
+          <line>437</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -693,7 +693,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>526</line>
+          <line>531</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -703,12 +703,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>267</line>
+          <line>272</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>186</line>
+          <line>190</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -733,12 +733,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>108</line>
+          <line>110</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>360</line>
+          <line>365</line>
           <option name="timeStamp" value="81" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -788,7 +788,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>286</line>
+          <line>291</line>
           <option name="timeStamp" value="103" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -810,6 +810,16 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/compare/products/CompareProdutsFragment.kt</url>
           <line>60</line>
           <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragmentPresenter.kt</url>
+          <line>37</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragmentPresenter.kt</url>
+          <line>39</line>
+          <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/data/model/Product.kt</url>
