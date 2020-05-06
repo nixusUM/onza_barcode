@@ -22,7 +22,9 @@ import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.AllShopsDelegate
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Shop
+import com.onza.barcode.dialogs.addPrice.AddPriceDialog
 import com.onza.barcode.dialogs.addProduct.AddProductDialog
+import com.onza.barcode.dialogs.addReview.AddReviewDialog
 import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_shop.*
 
@@ -33,6 +35,9 @@ import kotlinx.android.synthetic.main.activity_shop.*
 class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.ItemClick {
 
     private var selectdProduct: Product? = null
+    private var page = 1
+    private var lastFirstVisiblePosition = 0
+    private var paginationPge = false
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lat = 0.0
@@ -67,6 +72,13 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
 
         }
 
+        icon_clear.setOnClickListener {
+            var adapter = list_shops.adapter as SimpleAdapter
+            edt_search.setText("")
+            adapter.filterShops("")
+            showNoResultPlaceHolder(false)
+        }
+
         edt_search.addTextChangedListener((object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -91,11 +103,11 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
         super.onResume()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
         obtieneLocalizacion()
-        if (selectdProduct == null) {
-            obtieneLocalizacion()
-        } else {
-            initShopesAdapter()
-        }
+//        if (selectdProduct == null) {
+//            obtieneLocalizacion()
+//        } else {
+////            initShopesAdapter()
+//        }
     }
 
     @SuppressLint("MissingPermission")
@@ -107,7 +119,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
                     lon = location.longitude
                 }
                 if (Utils().isInternetAvailable()) {
-                    presenter.getNeearShops(lat, lon)
+                    presenter.getNeearShops(lat, lon, 1)
                 } else {
                     showError(getString(R.string.no_connection_message))
                     showShopList(ArrayList<Shop>())
@@ -118,25 +130,39 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     private fun initShopesAdapter() {
         progressBar.visibility = View.GONE
         if (selectdProduct?.shops != null) {
-            val layoutManager = LinearLayoutManager(
-                context!!,
+            val layoutManager = LinearLayoutManager(context,
                 RecyclerView.VERTICAL,
-                false
-            )
+                false)
 
             with(list_shops) {
                 adapter = SimpleAdapter(selectdProduct!!.shops!!, adapterManager)
                 setLayoutManager(layoutManager)
             }
+
         } else {
             view_no_result.visibility = View.VISIBLE
         }
+
     }
 
-    override fun onShopClicked(name: String, id: Int) {
-        val parentFragment = parentFragment as AddProductDialog
-        parentFragment.selectShop(name, id)
-        dismiss()
+    override fun onShopClicked(shop: Shop, position: Int) {
+        if (getParentFragment() is AddProductDialog) {
+            val parentFragment = parentFragment as AddProductDialog
+            parentFragment.selectShop(shop.name, shop.branch.id)
+            dismiss()
+        }
+
+        if (getParentFragment() is AddPriceDialog) {
+            val parentFragment = parentFragment as AddPriceDialog
+            parentFragment.shopSelected(shop, position)
+            dismiss()
+        }
+
+        if (getParentFragment() is AddReviewDialog) {
+            val parentFragment = parentFragment as AddReviewDialog
+            parentFragment.shopSelected(shop, position)
+            dismiss()
+        }
     }
 
     fun showError(text: String?) {
@@ -171,6 +197,10 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
             return
         }
 
+        progressBar.visibility = View.GONE
+        progressBar_endless.visibility = View.GONE
+        paginationPge = false
+
         val layoutManager = LinearLayoutManager(
             context,
             RecyclerView.VERTICAL,
@@ -180,6 +210,22 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
         with(list_shops) {
             adapter = SimpleAdapter(shopList, adapterManager)
             setLayoutManager(layoutManager)
+        }
+
+        list_shops.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE && !paginationPge) {
+                    lastFirstVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    progressBar_endless.visibility = View.VISIBLE
+                    paginationPge = true
+                    presenter.getNeearShops(lat, lon, page + 1)
+                }
+            }
+        })
+
+        if (lastFirstVisiblePosition != 0) {
+            layoutManager.scrollToPosition(lastFirstVisiblePosition)
         }
     }
 

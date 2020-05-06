@@ -43,7 +43,7 @@ class AddReviewPresenter (val context: Context, val view: AddReviewView) {
     }
 
     fun getNeearShops(lat: Double, lon: Double) {
-        apiService.getNearShops(lat, lon)
+        apiService.getNearShops(lat, lon, 1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (

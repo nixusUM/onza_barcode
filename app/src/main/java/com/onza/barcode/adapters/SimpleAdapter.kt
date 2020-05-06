@@ -94,8 +94,9 @@ open class SimpleAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateShopSelected(position: Int) {
-//        notifyItemChanged(position)
+    fun updateShopSelected(shopsSelected: ArrayList<Shop>) {
+        var shops = items as ArrayList<Shop>
+        shops = shopsSelected
         notifyDataSetChanged()
     }
 

@@ -155,4 +155,14 @@
         android:indeterminateTint="#FFE249">
     </ProgressBar>
 
+    <ProgressBar
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar_endless"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:visibility="gone"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/dark_transparent"/>
+
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -179,8 +180,10 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
 
     override fun showReviwes(reviews: List<Reviews>, count: Int) {
         if (reviews.isNullOrEmpty()) {
-            view_no_reviews.visibility = View.VISIBLE
-            review_list.visibility = View.GONE
+            if (view_no_reviews != null && review_list != null) {
+                view_no_reviews.visibility = View.VISIBLE
+                review_list.visibility = View.GONE
+            }
             return
         }
 
@@ -193,9 +196,12 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         val layoutManager = LinearLayoutManager(activity,
             RecyclerView.HORIZONTAL,
             false)
-
         val snapHelper =  PagerSnapHelper()
-        snapHelper.attachToRecyclerView(review_list)
+
+        if (review_list.onFlingListener == null) {
+            snapHelper.attachToRecyclerView(review_list)
+        }
+
         review_list.addItemDecoration(LinePagerIndicatorDecoration())
 
         with(review_list) {
@@ -274,15 +280,10 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         if (progressBar != null) {
             progressBar.visibility = View.GONE
         }
-        if(text != null) {
-            Snackbar
-                .make(rootView, text, Snackbar.LENGTH_SHORT)
-                .show()
-        }
-        else {
-            Snackbar
-                .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
-                .show()
+        if (text != null) {
+            Toast.makeText(activity!!, text, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(activity!!, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
         }
     }
 

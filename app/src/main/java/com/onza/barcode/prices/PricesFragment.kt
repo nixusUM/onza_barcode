@@ -1,12 +1,15 @@
 package com.onza.barcode.prices
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.onza.barcode.R
+import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.PricesDelegate
 import com.onza.barcode.base.BaseActivity
 import com.onza.barcode.data.Price
@@ -23,6 +27,9 @@ import com.onza.barcode.data.model.Product
 import com.onza.barcode.dialogs.addPrice.AddPriceDialog
 import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.activity_price.*
+import kotlinx.android.synthetic.main.dialog_price_submit.*
+import kotlinx.android.synthetic.main.fragment_barcode.*
+import kotlin.math.roundToInt
 
 /**
  * Created by Ilia Polozov on 09/February/2020
@@ -75,9 +82,8 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
         obtieneLocalizacion()
     }
 
-    fun updatePrices() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-        obtieneLocalizacion()
+    fun updatePrices(productPirce: Float) {
+        showAddedPriceDialog(productPirce)
     }
 
     @SuppressLint("MissingPermission")
@@ -97,15 +103,31 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
             }
     }
 
+    fun showAddedPriceDialog(productPirce: Float) {
+        val dialog = Dialog(context, R.style.CustomAlertDialogStyle)
+        dialog.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog.window.setBackgroundDrawableResource(R.color.dark_transparent)
+        dialog.window.attributes.windowAnimations = R.style.DialogAnimation
+
+        dialog.setContentView(R.layout.dialog_price_submit)
+        dialog.price_hint.text = String.format(getString(R.string.product_price_added, productPirce.roundToInt()))
+        dialog.contraint_next.setOnClickListener {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+            obtieneLocalizacion()
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
     override fun showError(text: String?) {
         if(text != null) {
-            Snackbar
-                .make(rootView, text, Snackbar.LENGTH_SHORT)
+            Toast
+                .makeText(activity!!, text, Toast.LENGTH_SHORT)
                 .show()
         }
         else {
-            Snackbar
-                .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
+            Toast
+                .makeText(activity!!, R.string.default_error, Toast.LENGTH_SHORT)
                 .show()
         }
     }

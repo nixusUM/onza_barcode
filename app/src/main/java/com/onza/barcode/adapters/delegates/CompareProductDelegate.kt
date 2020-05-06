@@ -80,6 +80,13 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
         lyt.layoutParams = params
         lytProperty.layoutParams = params
         lyt.title.text = detail.title
+
+        if (position == 0) {
+            lyt.title.visibility = View.VISIBLE
+        } else {
+            lyt.title.visibility = View.INVISIBLE
+        }
+
         lyt.lyt_properties.removeAllViews()
 
         for(property in detail.properties) {

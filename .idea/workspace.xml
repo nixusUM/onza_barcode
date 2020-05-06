@@ -346,7 +346,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="PL2GAR9812103745" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_23" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -637,21 +637,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addPrice/AddPriceDialog.kt</url>
-          <line>131</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addPrice/AddPriceDialog.kt</url>
-          <line>136</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addPrice/AddPriceDialog.kt</url>
-          <line>137</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addProduct/AddProductPresenter.kt</url>
           <line>73</line>
           <option name="timeStamp" value="21" />
@@ -683,7 +668,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addReview/AddReviewDialog.kt</url>
-          <line>100</line>
+          <line>102</line>
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -698,7 +683,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addReview/AddReviewDialog.kt</url>
-          <line>169</line>
+          <line>177</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -778,13 +763,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/SimpleAdapter.kt</url>
-          <line>102</line>
+          <line>103</line>
           <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/delegates/ShopDelegate.kt</url>
-          <line>26</line>
-          <option name="timeStamp" value="101" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
@@ -793,22 +773,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragment.kt</url>
-          <line>101</line>
+          <line>102</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragment.kt</url>
-          <line>65</line>
+          <line>66</line>
           <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/delegates/CompareProductDelegate.kt</url>
-          <line>126</line>
+          <line>133</line>
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/compare/products/CompareProdutsFragment.kt</url>
-          <line>60</line>
+          <line>61</line>
           <option name="timeStamp" value="116" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -820,6 +800,31 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragmentPresenter.kt</url>
           <line>39</line>
           <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addReview/AddReviewDialog.kt</url>
+          <line>135</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/SimpleAdapter.kt</url>
+          <line>99</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/SimpleAdapter.kt</url>
+          <line>97</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addPrice/AddPriceDialog.kt</url>
+          <line>203</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/shop/ShopActivity.kt</url>
+          <line>217</line>
+          <option name="timeStamp" value="127" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/data/model/Product.kt</url>

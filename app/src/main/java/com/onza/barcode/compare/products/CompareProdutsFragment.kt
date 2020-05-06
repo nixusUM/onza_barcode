@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -99,13 +100,13 @@ class CompareProdutsFragment: Fragment(), CompareProdutsView, CompareProductDele
 
     fun showError(text: String?) {
         if(text != null) {
-            Snackbar
-                .make(rootView, text, Snackbar.LENGTH_SHORT)
+            Toast
+                .makeText(activity!!, text, Toast.LENGTH_SHORT)
                 .show()
         }
         else {
-            Snackbar
-                .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
+            Toast
+                .makeText(activity!!, R.string.default_error, Toast.LENGTH_SHORT)
                 .show()
         }
     }

@@ -12,4 +12,5 @@ data class Shop(val id: Int,
                 val branch: Branch,
                 val external_id: Long,
                 val category: String?,
-                val price: Float): Serializable
+                val price: Float,
+                var isSelected: Boolean): Serializable

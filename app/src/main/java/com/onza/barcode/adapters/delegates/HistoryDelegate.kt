@@ -43,7 +43,12 @@ class HistoryDelegate(context: Context, val callback: ItemClick, val productCall
         holder.addPrice.setOnClickListener {
             callback.onAddToFavourite(item.product)
         }
+
         holder.productImage.setOnClickListener {
+            productCallBack.onProductClicked(item.product)
+        }
+
+        holder.name.setOnClickListener {
             productCallBack.onProductClicked(item.product)
         }
     }

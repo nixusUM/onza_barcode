@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
+import com.jakewharton.rxbinding2.widget.RxTextView
 import com.onza.barcode.R
 import com.onza.barcode.adapters.SimpleAdapter
 import com.onza.barcode.adapters.delegates.ShopDelegate
@@ -30,6 +31,7 @@ import com.onza.barcode.prices.PricesFragment
 import com.onza.barcode.product.fragments.detail.DetailFragment
 import com.onza.barcode.shop.ShopActivity
 import com.onza.barcode.utils.Utils
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.dialog_add_price.*
 import kotlinx.android.synthetic.main.fragment_add_price.*
 import kotlinx.android.synthetic.main.fragment_add_price.edt_price
@@ -39,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_add_price.textView_name
 import kotlinx.android.synthetic.main.fragment_add_price.view_add_price
 import kotlinx.android.synthetic.main.fragment_add_price.view_all_shops
 import kotlinx.android.synthetic.main.fragment_add_price.view_cancel_price
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Ilia Polozov on 24/February/2020
@@ -55,6 +58,9 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     private var lon = 0.0
 
     private var eventListener: MiniAppCallback? = null
+    private var storedShops = ArrayList<Shop>()
+
+    private var selectedShop: Shop? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,6 +101,44 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
             this.dismiss()
         }
 
+        RxTextView.textChanges(edt_price)
+            .debounce(100L, TimeUnit.MILLISECONDS)
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    if (edt_price.text.isNullOrBlank()) {
+                        view_add_price.setBackgroundDrawable(
+                            ContextCompat.getDrawable(activity!!, R.drawable.ic_price_disabled)
+                        )
+                        view_add_price.setOnClickListener {}
+                    } else {
+                        if (this.selectedShop != null) {
+                            view_add_price.setBackgroundDrawable(
+                                ContextCompat.getDrawable(activity!!, R.drawable.ic_price_enebled)
+                            )
+                            view_add_price.setOnClickListener {
+                                if (Utils().isInternetAvailable()) {
+                                    eventListener!!.logEvent(
+                                        "ProductCost",
+                                        "GoodsPrice",
+                                        null,
+                                        null
+                                    )
+                                    presenter.addPriceToProduct(
+                                        selectdProduct.id,
+                                        this.selectedShop!!.branch.id,
+                                        edt_price.text.toString().toFloat()
+                                    )
+                                } else {
+                                    showError(getString(R.string.no_connection_message))
+                                }
+                            }
+                        }
+                    }
+                },
+                {})
+
         eventListener!!.logEvent("click_ProductCost", "GoodsPrice", null, selectdProduct.id.toLong())
     }
 
@@ -108,7 +152,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
                 }
 //                if (!selectdProduct.shops.isNullOrEmpty() || lat < 1.0) {?
                 if (Utils().isInternetAvailable()) {
-                    presenter.getNeearShops(lat, lon)
+                    presenter.getNeearShops(lat, lon, 1)
 
                 } else {
                     initShopList(ArrayList<Shop>())
@@ -126,6 +170,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
             return
         }
 
+        this.storedShops.addAll(shops)
         progressBar.visibility = View.GONE
         list_shop.visibility = View.VISIBLE
 
@@ -134,15 +179,31 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
             false)
 
         with(list_shop) {
-            adapter = SimpleAdapter(shops, adapterManager)
+            adapter = SimpleAdapter(storedShops, adapterManager)
             setLayoutManager(layoutManager)
         }
     }
 
     override fun shopSelected(shop: Shop, position: Int) {
+        this.selectedShop = shop
+        var selectedSjopPosition = 0
         var adapter = list_shop.adapter as SimpleAdapter
-        adapter.updateShopSelected(position)
-        if (edt_price.text.toString().isNotEmpty()) {
+
+        if (!storedShops.contains(shop)) {
+            storedShops.add(shop)
+        }
+
+        for (i in storedShops.indices) {
+            if (storedShops[i].id == shop.id) {
+                selectedSjopPosition = i
+                storedShops[i].isSelected = true
+            } else {
+                storedShops[i].isSelected = false
+            }
+        }
+        adapter.updateShopSelected(storedShops)
+        list_shop.scrollToPosition(selectedSjopPosition)
+        if (!edt_price.text.toString().isNullOrEmpty()) {
             view_add_price.setBackgroundDrawable(
                 ContextCompat.getDrawable(activity!!, R.drawable.ic_price_enebled)
             )
@@ -152,11 +213,11 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
                         "ProductCost",
                         "GoodsPrice",
                         null,
-                        edt_price.text.toString().toLong()
+                        null
                     )
                     presenter.addPriceToProduct(
                         selectdProduct.id,
-                        shop.branch.id,
+                        this.selectedShop!!.branch.id,
                         edt_price.text.toString().toFloat()
                     )
                 } else {
@@ -184,16 +245,6 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     fun showError(text: String?) {
         progressBar.visibility = View.GONE
         Toast.makeText(context!!, text, Toast.LENGTH_SHORT).show()
-//        if(text != null) {
-//            Snackbar
-//                .make(rootView, text, Snackbar.LENGTH_SHORT)
-//                .show()
-//        }
-//        else {
-//            Snackbar
-//                .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
-//                .show()
-//        }
     }
 
     override fun showMessage(text: String?) {
@@ -207,7 +258,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
             dismiss()
         } else if (parentFragment is PricesFragment){
             val parentFragment = parentFragment as PricesFragment
-            parentFragment.updatePrices()
+            parentFragment.updatePrices(productPrice.price)
             dismiss()
         } else {
             val parentFragment = parentFragment as DetailFragment

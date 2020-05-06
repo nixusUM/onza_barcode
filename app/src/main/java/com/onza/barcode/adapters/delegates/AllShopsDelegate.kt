@@ -48,7 +48,7 @@ class AllShopsDelegate(context: Context, val callback: ItemClick)
             .into(holder.shopImage)
 
         holder.parentVIew.setOnClickListener {
-            callback.onShopClicked(item.name, item.branch.id)
+            callback.onShopClicked(item, holder.adapterPosition)
         }
     }
 
@@ -70,6 +70,6 @@ class AllShopsDelegate(context: Context, val callback: ItemClick)
     }
 
     interface ItemClick {
-        fun onShopClicked(name: String, id: Int)
+        fun onShopClicked(shop: Shop, position: Int)
     }
 }

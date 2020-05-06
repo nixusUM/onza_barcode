@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
     private var lon = 0.0
 
     private var eventListener: MiniAppCallback? = null
+    private var storedShops = ArrayList<Shop>()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -117,6 +119,7 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
             return
         }
 
+        this.storedShops.addAll(shops)
         progressBar.visibility = View.GONE
         list_shop.visibility = View.VISIBLE
         val layoutManager = LinearLayoutManager(context!!,
@@ -124,15 +127,30 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
             false)
 
         with(list_shop) {
-            adapter = SimpleAdapter(shops, adapterManager)
+            adapter = SimpleAdapter(storedShops, adapterManager)
             setLayoutManager(layoutManager)
         }
     }
 
     override fun shopSelected(shop: Shop, position: Int) {
         this.selectedShop = shop
+        var selectedSjopPosition = 0
         var adapter = list_shop.adapter as SimpleAdapter
-        adapter.updateShopSelected(position)
+
+        if (!storedShops.contains(shop)) {
+            storedShops.add(shop)
+        }
+
+        for (i in storedShops.indices) {
+            if (storedShops[i].id == shop.id) {
+                selectedSjopPosition = i
+                storedShops[i].isSelected = true
+            } else {
+                storedShops[i].isSelected = false
+            }
+        }
+        adapter.updateShopSelected(storedShops)
+        list_shop.scrollToPosition(selectedSjopPosition)
         txt_add_review.setTextColor(ContextCompat.getColor(context!!, android.R.color.black))
         view_add_review.setBackgroundDrawable(
                 ContextCompat.getDrawable(context!!, R.drawable.ic_price_enebled)
@@ -149,16 +167,6 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
     fun showError(text: String?) {
         progressBar.visibility = View.GONE
         Toast.makeText(context!!, text, Toast.LENGTH_SHORT).show()
-//        if(text != null) {
-//            Snackbar
-//                .make(rootView, text, Snackbar.LENGTH_SHORT)
-//                .show()
-//        }
-//        else {
-//            Snackbar
-//                .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
-//                .show()
-//        }
     }
 
     override fun showMessage(text: String?) {

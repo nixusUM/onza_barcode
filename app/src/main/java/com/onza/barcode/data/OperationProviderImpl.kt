@@ -69,7 +69,7 @@ class OperationProviderImpl(val responseHandler: ResponseHandler,
     }
 
     override fun getNearShops(lat: Double, lon: Double): Observable<List<Shop>> {
-        return apiService.getNearShops(lat, lon)
+        return apiService.getNearShops(lat, lon, 1)
             .flatMap { response -> responseHandler.handleResponse(response) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())

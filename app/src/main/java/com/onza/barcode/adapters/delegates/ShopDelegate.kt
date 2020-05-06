@@ -47,7 +47,7 @@ class ShopDelegate(context: Context, val callback: ItemClick)
             .placeholder(R.drawable.ic_no_product_grey)
             .into(holder.imgShop)
 
-        if (selectedPosition == position) {
+        if (item.isSelected) {
             holder.parentView.setCardBackgroundColor(Color.parseColor("#26CB5A"))
             holder.title.setTextColor(Color.WHITE)
             holder.distance.setTextColor(Color.WHITE)
@@ -58,12 +58,16 @@ class ShopDelegate(context: Context, val callback: ItemClick)
         }
 
         holder.parentView.setOnClickListener {
-            selectedPosition = holder.adapterPosition
-            callback.shopSelected(item, selectedPosition)
+            item.isSelected = true
+            callback.shopSelected(item, holder.adapterPosition)
         }
     }
 
     override fun isForViewType(item: Any?): Boolean = item is Shop
+
+    fun updateItem(position: Int) {
+        this.selectedPosition = position
+    }
 
     override fun onCreateViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup?): ViewHolder {
         return ViewHolder(layoutInflater.inflate(

@@ -39,18 +39,19 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="left"
             android:id="@+id/textView_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp"
             android:text="Неотрависил"
             android:textColor="@android:color/black"
             android:gravity="center"
             android:textSize="20sp"
-            android:maxWidth="200dp"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="1"
             android:textStyle="bold" />
 
         <TextView
