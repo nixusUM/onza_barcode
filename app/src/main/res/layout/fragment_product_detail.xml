@@ -633,8 +633,6 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
-
-
                 <androidx.cardview.widget.CardView
                     android:layout_marginTop="12dp"
                     android:id="@+id/cardView_post_review"
@@ -784,6 +782,17 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"/>
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/txt_source"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A3B1C1"
+                        android:textSize="14sp"/>
 
                 </LinearLayout>
 

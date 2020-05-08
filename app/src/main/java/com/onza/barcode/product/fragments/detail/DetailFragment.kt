@@ -139,6 +139,11 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         textView_rates.text = selectdProduct.amounts!!.rates.toString()
         textView_reviews.text = selectdProduct.amounts!!.reviews.toString()
 
+        if (!selectedProduct.source.isNullOrEmpty()) {
+            txt_source.text = selectedProduct.source
+            txt_source.visibility = View.VISIBLE
+        }
+
         if (!selectdProduct.images.isNullOrEmpty()) {
             initPhotosViewPager()
         }

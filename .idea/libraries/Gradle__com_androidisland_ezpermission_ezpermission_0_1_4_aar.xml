@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.androidisland.ezpermission:ezpermission:0.1.4@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3c7723ca69a991a8fa8c89d90a4048/ezpermission-0.1.4/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3c7723ca69a991a8fa8c89d90a4048/ezpermission-0.1.4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fe97d39d90ca97894524b6bf51691fe8/jetified-ezpermission-0.1.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fe97d39d90ca97894524b6bf51691fe8/jetified-ezpermission-0.1.4/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.androidisland.ezpermission/ezpermission/0.1.4/27ce9762bb9f7404eb5132d52bf237380e65d0d6/ezpermission-0.1.4-javadoc.jar!/" />
