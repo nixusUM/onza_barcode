@@ -48,16 +48,16 @@ class ShopDelegate(context: Context, val callback: ItemClick)
             .into(holder.imgShop)
 
         if (item.isSelected) {
-            holder.parentView.setCardBackgroundColor(Color.parseColor("#26CB5A"))
+            holder.cardViewShop.setCardBackgroundColor(Color.parseColor("#26CB5A"))
             holder.title.setTextColor(Color.WHITE)
             holder.distance.setTextColor(Color.WHITE)
         } else {
-            holder.parentView.setCardBackgroundColor(Color.WHITE)
+            holder.cardViewShop.setCardBackgroundColor(Color.WHITE)
             holder.title.setTextColor(Color.BLACK)
             holder.distance.setTextColor(Color.parseColor("#2A83FF"))
         }
 
-        holder.parentView.setOnClickListener {
+        holder.cardViewShop.setOnClickListener {
             item.isSelected = true
             callback.shopSelected(item, holder.adapterPosition)
         }
@@ -77,7 +77,7 @@ class ShopDelegate(context: Context, val callback: ItemClick)
     }
 
     class ViewHolder(rootView: View): RecyclerView.ViewHolder(rootView) {
-        val parentView: CardView = rootView.parentView
+        val cardViewShop: CardView = rootView.cardView_shop
         val title: TextView = rootView.title
         val distance: TextView = rootView.distance
         val imgShop: ImageView = rootView.img_shop
