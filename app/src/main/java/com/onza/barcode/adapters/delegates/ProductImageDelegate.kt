@@ -6,23 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.esafirm.imagepicker.model.Image
 import com.onza.barcode.R
 import kotlinx.android.synthetic.main.item_product_image.view.*
+import java.io.File
 
 /**
  * Created by Ilia Polozov on 26/February/2020
  */
 
 class ProductImageDelegate(context: Context, val callback: ItemClick)
-    : BaseDelegate<ProductImageDelegate.ViewHolder, Image>(context) {
+    : BaseDelegate<ProductImageDelegate.ViewHolder, File>(context) {
 
-    override fun onBindViewHolder(position: Int, item: Image, holder: ViewHolder, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(position: Int, item: File, holder: ViewHolder, payloads: MutableList<Any>) {
         Glide.with(context)
-            .load(item.path)
+            .load(item.absolutePath)
             .centerCrop()
             .placeholder(R.drawable.ic_product_placeholder)
             .into(holder.image)
@@ -32,7 +31,7 @@ class ProductImageDelegate(context: Context, val callback: ItemClick)
         }
     }
 
-    override fun isForViewType(item: Any?): Boolean = item is Image
+    override fun isForViewType(item: Any?): Boolean = item is File
 
     override fun onCreateViewHolder(layoutInflater: LayoutInflater, parent: ViewGroup?): ViewHolder {
         return ViewHolder(layoutInflater.inflate(

@@ -6,11 +6,8 @@ import android.graphics.BitmapFactory
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.InetAddress
-import java.net.UnknownHostException
 
 
 /**
@@ -23,27 +20,63 @@ class Utils {
         return RequestBody.create(MediaType.parse("text/plain"), value)
     }
 
-    fun saveBitmapToFile(file: File, scaleTo: Int = 1000): File? {
-        val bmOptions = BitmapFactory.Options()
-        bmOptions.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(file.absolutePath, bmOptions)
-        val photoW = bmOptions.outWidth
-        val photoH = bmOptions.outHeight
-
-        // Determine how much to scale down the image
-        val scaleFactor = Math.min(photoW / scaleTo, photoH / 768)
-
-        bmOptions.inJustDecodeBounds = false
-        bmOptions.inSampleSize = scaleFactor
-
-        val resized = BitmapFactory.decodeFile(file.absolutePath, bmOptions)
-        file.outputStream().use {
-            resized.compress(Bitmap.CompressFormat.JPEG, 75, it)
-            resized.recycle()
+    fun saveBitmapToFile(file: File): Bitmap? {
+        var source = BitmapFactory.decodeFile(file.absolutePath)
+        if (source.height == 1000 && source.width == 1000) return source
+        val maxLength: Int = Math.min(800, 800)
+        return try {
+            source = source.copy(source.getConfig(), true)
+            if (source.getHeight() <= source.getWidth()) {
+                if (source.getHeight() <= maxLength) { // if image already smaller than the required height
+                    return source
+                }
+                val aspectRatio =
+                    source.getWidth() as Double / source.getHeight() as Double
+                val targetWidth = (maxLength * aspectRatio).toInt()
+                Bitmap.createScaledBitmap(source, targetWidth, maxLength, false)
+            } else {
+                if (source.getWidth() <= maxLength) { // if image already smaller than the required height
+                    return source
+                }
+                val aspectRatio =
+                    source.getHeight() as Double / source.getWidth() as Double
+                val targetHeight = (maxLength * aspectRatio).toInt()
+                Bitmap.createScaledBitmap(source, maxLength, targetHeight, false)
+            }
+        } catch (e: Exception) {
+            return source
         }
+    }
 
+    fun saveBitmap(bitmap: Bitmap?, path: String): File? {
+        var file: File? = null
+        if (bitmap != null) {
+            file = File(path)
+            try {
+                var outputStream: FileOutputStream? = null
+                try {
+                    outputStream =
+                        FileOutputStream(path) //here is set your file path where you want to save or also here you can set file object directly
+                    bitmap.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        75,
+                        outputStream
+                    ) // bitmap is your Bitmap instance, if you want to compress it you can compress reduce percentage
+                    // PNG is a lossless format, the compression factor (100) is ignored
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                } finally {
+                    try {
+                        outputStream?.close()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        }
         return file
-
     }
 
     fun dpToPx(dp: Int, context: Context): Int {

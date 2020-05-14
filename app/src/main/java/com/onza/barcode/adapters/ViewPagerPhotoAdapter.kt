@@ -13,7 +13,7 @@ class ViewPagerPhotoAdapter(fm: FragmentManager?, list: ArrayList<String>) : Fra
 
     var mUrls: ArrayList<String> = list
 
-    override fun getItem(position: Int): Fragment = ImageFragment.newInstance(mUrls)
+    override fun getItem(position: Int): Fragment = ImageFragment.newInstance(mUrls[position])
 
     override fun getCount(): Int = mUrls.size
 }

@@ -1,7 +1,9 @@
 package com.onza.barcode.dialogs.addPrice
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -88,8 +90,12 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
         presenter = AddPricePresenter(this, context!!)
         selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-        obtieneLocalizacion()
+        if (locationPermissonsApproved()) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+            obtieneLocalizacion()
+        } else {
+            progressBar.visibility = View.GONE
+        }
 
         textView_name.text = selectdProduct.name
         textView_location.text = selectdProduct.production_place
@@ -140,6 +146,14 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
                 {})
 
         eventListener!!.logEvent("click_ProductCost", "GoodsPrice", null, selectdProduct.id.toLong())
+    }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     @SuppressLint("MissingPermission")

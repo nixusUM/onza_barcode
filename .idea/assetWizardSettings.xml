@@ -49,6 +49,7 @@
                                                 <entry key="color" value="000000" />
                                                 <entry key="opacityPercent" value="80" />
                                                 <entry key="paddingPercent" value="25" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -59,8 +60,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/ic_no_rpoduct_png.png" />
-                                      <entry key="outputName" value="ic_no_rpoduct_png" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/icons 2/пнг/camera.png" />
+                                      <entry key="outputName" value="ic_photo_camera_black_48dp" />
                                       <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="a3b1c1" />
                                     </map>
@@ -79,11 +80,18 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/icons 2/пнг/camera.png" />
+                                      <entry key="outputName" value="ic_photo_camera_black_48dp" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -111,6 +119,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -121,10 +130,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="cropped" value="true" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/ic_product_place_holder.png" />
-                                      <entry key="outputName" value="ic_product_place_image" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/Архив (1)/camera.png" />
+                                      <entry key="outputName" value="ic_camera" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -155,7 +163,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
+                            <entry key="outputIconType" value="LAUNCHER_LEGACY" />
                           </map>
                         </option>
                       </PersistentState>
@@ -177,8 +185,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_no_image_detail" />
-                            <entry key="sourceFile" value="$USER_HOME$/Desktop/no_image_detail.svg" />
+                            <entry key="outputName" value="ic_gallery_svg" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/gallery.svg" />
                           </map>
                         </option>
                       </PersistentState>

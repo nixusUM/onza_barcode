@@ -1,8 +1,10 @@
 package com.onza.barcode.prices
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -78,8 +81,21 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
 
     override fun onResume() {
         super.onResume()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-        obtieneLocalizacion()
+        if (locationPermissonsApproved()) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+            obtieneLocalizacion()
+        } else {
+            view_prices_placeholder.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     fun updatePrices(productPirce: Float) {

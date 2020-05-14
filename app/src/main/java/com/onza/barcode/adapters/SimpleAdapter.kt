@@ -3,10 +3,10 @@ package com.onza.barcode.adapters
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.esafirm.imagepicker.model.Image
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.onza.barcode.data.model.Category
 import com.onza.barcode.data.model.Shop
+import java.io.File
 
 /**
  * Created by Ilia Polozov on 12/January/2020
@@ -101,7 +101,7 @@ open class SimpleAdapter(
     }
 
     fun removeImage(postition: Int) {
-        var images = items as MutableList<Image>
+        var images = items as MutableList<File>
         this.items.removeAt(postition)
         if (this.items.isNotEmpty()) {
             notifyDataSetChanged()

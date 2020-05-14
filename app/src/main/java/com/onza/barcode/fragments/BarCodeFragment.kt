@@ -163,7 +163,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
                     Manifest.permission.CAMERA
                 )
                 .request { granted, denied, permanentlyDenied ->
-                    if (granted.toString().isNotEmpty()) {
+                    if (granted.isNotEmpty()) {
                         initCamera()
                     }
                 }
@@ -249,7 +249,8 @@ class BarCodeFragment: Fragment(), BarCodeView,
     }
 
     override fun showError(text: String?) {
-        progressBar.visibility = View.GONE
+        if (progressBar != null) {
+            progressBar.visibility = View.GONE
         if(text != null) {
             Snackbar
                 .make(rootView, text, Snackbar.LENGTH_SHORT)
@@ -259,6 +260,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
             Snackbar
                 .make(rootView, R.string.default_error, Snackbar.LENGTH_SHORT)
                 .show()
+        }
         }
     }
 
@@ -347,7 +349,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
                 .placeholder(R.drawable.ic_no_rpoduct_png)
                 .into(lyt.product_logo)
         } else {
-            lyt.product_logo.setCircleBackgroundColorResource(R.color.ef_white)
+            lyt.product_logo.setCircleBackgroundColorResource(android.R.color.white)
         }
 
         return lyt
@@ -665,7 +667,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
                 .placeholder(R.drawable.ic_no_rpoduct_png)
                 .into(lyt.product_logo)
         } else {
-            lyt.product_logo.setCircleBackgroundColorResource(R.color.ef_white)
+            lyt.product_logo.setCircleBackgroundColorResource(android.R.color.white)
         }
 
         return lyt

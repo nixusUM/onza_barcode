@@ -1,5 +1,6 @@
 package com.onza.barcode.dialogs.addProduct
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alterevit.gorodminiapp.library.MiniAppCallback
-import com.esafirm.imagepicker.features.ImagePicker
-import com.esafirm.imagepicker.model.Image
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,6 +25,7 @@ import com.onza.barcode.fragments.BarCodeFragment
 import com.onza.barcode.shop.ShopActivity
 import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_product.*
+import java.io.File
 
 /**
  * Created by Ilia Polozov on 24/February/2020
@@ -34,7 +35,7 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
 
     private lateinit var presenter: AddProductPresenter
 
-    private val storedImages = mutableListOf<Image>()
+    private val storedImages = mutableListOf<File>()
 
     private var shopid = 0
     private var categoryId = 0
@@ -133,16 +134,16 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            val images = ImagePicker.getImages(data)
+        if (resultCode == Activity.RESULT_OK) {
+            val images = ImagePicker.getFile(data)
             if (images != null) {
-                this.storedImages.addAll(images)
+                this.storedImages.add(images)
                 initProductImageAdapter(storedImages)
             }
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun initProductImageAdapter(imageList: MutableList<Image>) {
+    private fun initProductImageAdapter(imageList: MutableList<File>) {
         image_list.visibility = View.VISIBLE
         val layoutManager = LinearLayoutManager(
             context!!,

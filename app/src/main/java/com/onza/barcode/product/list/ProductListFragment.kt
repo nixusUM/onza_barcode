@@ -236,21 +236,17 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
         val marginNext = Utils().dpToPx(-8, context!!)
 
         for (i in products.indices) {
-            for (item in products[i].products) {
-                if (i < 6) {
-                    var logoView = if (i == 0) {
-                        createLogos(item.product, 0)
-                    } else {
-                        createLogos(item.product, marginNext)
-                    }
-                    lyt.view_logo.addView(logoView)
+            if (i < 6) {
+                var logoView = if (i == 0) {
+                    createLogos(products[i].products[0].product, 0)
                 } else {
-                    showMoreCount = true
+                    createLogos(products[i].products[0].product, marginNext)
                 }
+                lyt.view_logo.addView(logoView)
             }
         }
 
-        if (showMoreCount) {
+        if (products.size > 6) {
             lyt.txt_more_Count.setTextColor(ContextCompat.getColor(context!!, android.R.color.white))
             lyt.txt_more_Count.visibility = View.VISIBLE
             lyt.txt_more_Count.text  = getString(R.string.more_count, products.size - 6)
@@ -278,7 +274,7 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
                 .placeholder(R.drawable.ic_no_rpoduct_png)
                 .into(lyt.product_logo)
         } else {
-            lyt.product_logo.setCircleBackgroundColorResource(R.color.ef_white)
+            lyt.product_logo.setCircleBackgroundColorResource(android.R.color.white)
         }
 
         return lyt

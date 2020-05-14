@@ -247,29 +247,23 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
             }
         }
 
-        var showMoreCount = false
-
         lyt.total_amount.text = "~ " + String.format("%.2f", totalAmount) + " Р"
         lyt.view_logo.removeAllViews()
 
         val marginNext = Utils().dpToPx(-8, context!!)
 
         for (i in products.indices) {
-            for (item in products[i].products) {
-                    if (i < 6) {
-                        var logoView = if (i == 0) {
-                            createLogos(item.product, 0)
-                        } else {
-                            createLogos(item.product, marginNext)
-                        }
-                        lyt.view_logo.addView(logoView)
-                    } else {
-                        showMoreCount = true
-                    }
+            if (i < 6) {
+                var logoView = if (i == 0) {
+                    createLogos(products[i].products[0].product, 0)
+                } else {
+                    createLogos(products[i].products[0].product, marginNext)
+                }
+                lyt.view_logo.addView(logoView)
             }
         }
 
-        if (showMoreCount) {
+        if (products.size > 6) {
             lyt.txt_more_Count.visibility = View.VISIBLE
             lyt.txt_more_Count.text  = getString(R.string.more_count, products.size - 6)
         }
@@ -300,7 +294,7 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
                 .placeholder(R.drawable.ic_no_rpoduct_png)
                 .into(lyt.product_logo)
         } else {
-            lyt.product_logo.setCircleBackgroundColorResource(R.color.ef_white)
+            lyt.product_logo.setCircleBackgroundColorResource(android.R.color.white)
         }
 
         return lyt

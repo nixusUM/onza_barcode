@@ -3,9 +3,7 @@ package com.onza.barcode.dialogs.addProduct
 import android.content.Context
 import android.graphics.Color
 import android.util.Log
-import com.esafirm.imagepicker.features.ImagePicker
-import com.esafirm.imagepicker.features.ReturnMode
-import com.esafirm.imagepicker.model.Image
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -38,15 +36,10 @@ class AddProductPresenter(val view: AddProductView, val context: Context, val fr
     }
 
     fun onImagePick() {
-        ImagePicker
-            .create(fragment)
-            .folderMode(true)
-            .multi()
-            .showCamera(true)
-            .returnMode(ReturnMode.NONE)
-            .toolbarArrowColor(Color.BLACK)
-            .toolbarImageTitle("Выберите фото")
-            .imageDirectory("Camera")
+        ImagePicker.with(fragment)
+            .cropSquare()	    			//Crop image(Optional), Check Customization for more option
+            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1000, 1000)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     }
 
@@ -57,11 +50,11 @@ class AddProductPresenter(val view: AddProductView, val context: Context, val fr
         categoryId: Int,
         rating: Int,
         shopBranchId: Int,
-        images: List<Image>) {
+        images: List<File>) {
 
         val imageList = ArrayList<MultipartBody.Part>()
         for (i in images.indices) {
-            var fileBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), Utils().saveBitmapToFile(File(images[i].path)))
+            var fileBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), Utils().saveBitmap(Utils().saveBitmapToFile(File(images[i].path)), File(images[i].path).absolutePath))
             var body = MultipartBody.Part.createFormData("images[$i]", images[i].name, fileBody)
             imageList.add(body)
         }

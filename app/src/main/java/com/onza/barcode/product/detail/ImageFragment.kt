@@ -17,12 +17,12 @@ class ImageFragment: Fragment() {
 
     companion object {
 
-        private val EXTRA_LIST: String = "extra-list"
+        private val PHOTO_PATH: String = "extra-list"
 
-        fun newInstance(list: ArrayList<String>): ImageFragment {
+        fun newInstance(list: String): ImageFragment {
             val fragment = ImageFragment()
             val bundle = Bundle()
-            bundle.putStringArrayList(EXTRA_LIST, list)
+            bundle.putString(PHOTO_PATH, list)
             fragment.arguments = bundle
             return fragment
         }
@@ -38,10 +38,8 @@ class ImageFragment: Fragment() {
     }
 
     private fun initViews() {
-        for (item in arguments!!.getStringArrayList(EXTRA_LIST)) {
-            Glide.with(this)
-                .load(item)
-                .into(product_image)
-        }
+        Glide.with(this)
+            .load(arguments!!.getString(PHOTO_PATH))
+            .into(product_image)
     }
 }

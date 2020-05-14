@@ -1,6 +1,8 @@
 package com.onza.barcode.shop
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -38,6 +41,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     private var page = 1
     private var lastFirstVisiblePosition = 0
     private var paginationPge = false
+    private lateinit var textWather: TextWatcher
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lat = 0.0
@@ -79,7 +83,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
             showNoResultPlaceHolder(false)
         }
 
-        edt_search.addTextChangedListener((object : TextWatcher {
+        textWather = object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -96,18 +100,38 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
                     showNoResultPlaceHolder(false)
                 }
             }
-        }))
+        }
+
+        edt_search.addTextChangedListener(textWather)
     }
 
     override fun onResume() {
         super.onResume()
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-        obtieneLocalizacion()
+        if (locationPermissonsApproved()) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+            obtieneLocalizacion()
+        } else {
+            progressBar.visibility = View.GONE
+            showNoResultPlaceHolder(true)
+        }
 //        if (selectdProduct == null) {
 //            obtieneLocalizacion()
 //        } else {
 ////            initShopesAdapter()
 //        }
+    }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        edt_search.removeTextChangedListener(textWather)
     }
 
     @SuppressLint("MissingPermission")

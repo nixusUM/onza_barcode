@@ -1,7 +1,9 @@
 package com.onza.barcode.dialogs.addReview
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -82,14 +84,27 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
         presenter = AddReviewPresenter(context!!, this)
         selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
-        obtieneLocalizacion()
+        if (locationPermissonsApproved()) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+            obtieneLocalizacion()
+        } else {
+            progressBar.visibility = View.GONE
+        }
+
         view_all_shops.setOnClickListener {
             ShopActivity.getInstance(selectdProduct).show(this.childFragmentManager, "shop")
         }
         view_cancel_review.setOnClickListener {
             this.dismiss()
         }
+    }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     @SuppressLint("MissingPermission")

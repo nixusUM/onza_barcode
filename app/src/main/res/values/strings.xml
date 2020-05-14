@@ -8,4 +8,9 @@
     <string name="more_count">+ %d</string>
     <string name="more_reviews">Еще %d</string>
     <string name="no_connection_message">Отсутствует интернет\nПроверьте подключение</string>
+    <string name="title_choose_image_provider">Выберите</string>
+    <string name="title_camera">Камера</string>
+    <string name="title_gallery">Галлерея</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="ucrop_label_edit_photo"> </string>
 </resources>
