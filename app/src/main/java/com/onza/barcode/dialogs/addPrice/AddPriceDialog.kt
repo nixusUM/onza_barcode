@@ -93,15 +93,22 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
         if (locationPermissonsApproved()) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
             obtieneLocalizacion()
+            view_all_shops.setOnClickListener {
+                ShopActivity.getInstance(selectdProduct).show(this.childFragmentManager, "shop")
+            }
+
         } else {
+            view_all_shops.setTextColor(ContextCompat.getColor(activity!!, R.color.gray_disabled_color))
+            view_all_shops.setOnClickListener {
+//                ShopActivity.getInstance(selectdProduct).show(this.childFragmentManager, "shop")
+            }
+            view_no_data.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
         }
 
+
         textView_name.text = selectdProduct.name
         textView_location.text = selectdProduct.production_place
-        view_all_shops.setOnClickListener {
-            ShopActivity.getInstance(selectdProduct).show(this.childFragmentManager, "shop")
-        }
 
         view_cancel_price.setOnClickListener {
             this.dismiss()
@@ -181,6 +188,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     override fun initShopList(shops: List<Shop>?) {
         if (shops.isNullOrEmpty()) {
             progressBar.visibility = View.GONE
+            view_no_data.visibility = View.VISIBLE
             return
         }
 

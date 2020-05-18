@@ -265,6 +265,42 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginStart="20dp"
+            android:id="@+id/view_no_data"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/view_shop_header"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="165dp">
+
+            <TextView
+                android:id="@+id/no_data_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Нет магазинов рядом"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/no_data_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textSize="12sp"
+                android:textColor="@android:color/black"
+                android:text="К сожалению, мы не нашли информацию о местах\nпродажи этого товара рядом с вами"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <ProgressBar
             android:id="@+id/progressBar"
             android:visibility="visible"

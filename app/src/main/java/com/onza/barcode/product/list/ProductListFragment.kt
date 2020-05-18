@@ -1,8 +1,13 @@
 package com.onza.barcode.product.list
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +38,7 @@ import kotlinx.android.synthetic.main.activity_product_list.*
 import kotlinx.android.synthetic.main.dialog_add_product_to_list.*
 import kotlinx.android.synthetic.main.item_product_logo.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.*
+
 
 /**
  * Created by Ilia Polozov on 29/January/2020
@@ -65,13 +71,46 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter = ProductListActivityPresenter(this, context!!)
         view_back.setOnClickListener { activity!!.onBackPressed() }
-        if (Utils().isInternetAvailable()) {
-            presenter.getFavouriteList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (locationPermissonsApproved()) {
+            if (Utils().isInternetAvailable()) {
+                presenter.getFavouriteList()
+            } else {
+                showError(getString(R.string.no_connection_message))
+                showFavourites(ArrayList<Any>())
+            }
         } else {
-            showError(getString(R.string.no_connection_message))
-            showFavourites(ArrayList<Any>())
+            showError("Не удалось определить вашу геопозицию, проверьте настройки приложения")
+            progressBar.visibility = View.GONE
+            if (view_no_items != null && view_no_items.visibility == View.VISIBLE) {
+                view_no_items.visibility = View.GONE
+            } else {
+                view_no_items.visibility = View.VISIBLE
+            }
+            error_title.text = "Нет доступа к геопозиции"
+            error_hint.text = "Необходимо перейти в настройки и разрещить\nприложению использовать геопозицию"
+            text_navigate.text = "Открыть настройки"
+            cardView_scan.setOnClickListener {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                val uri: Uri = Uri.fromParts("package", activity!!.packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
         }
     }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    }
+
 
     override fun showFavourites(favouriteList: List<Any>) {
         if (progressBar == null) {

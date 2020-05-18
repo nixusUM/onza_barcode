@@ -13,4 +13,5 @@
     <color name="opacity_yellow">#1AFFE249</color>
     <color name="hint_color">#9B9AA9</color>
     <color name="dialog_choose_icon_color"></color>
+    <color name="gray_disabled_color">#A4B1C2</color>
 </resources>

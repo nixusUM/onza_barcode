@@ -83,6 +83,7 @@
             </ImageView>
 
             <TextView
+                android:id="@+id/error_title"
                 android:layout_marginTop="@dimen/middle_magin"
                 android:background="@drawable/background_oval"
                 android:layout_gravity="center_horizontal"
@@ -95,6 +96,7 @@
             </TextView>
 
             <TextView
+                android:id="@+id/error_hint"
                 android:background="@drawable/background_oval"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
@@ -120,6 +122,7 @@
             app:layout_constraintRight_toRightOf="parent">
 
             <TextView
+                android:id="@+id/text_navigate"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="14sp"

@@ -1,8 +1,11 @@
 package com.onza.barcode.product.fragments.detail
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.alterevit.gorodminiapp.library.MiniAppCallback
+import com.androidisland.ezpermission.EzPermission
 import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.onza.barcode.R
@@ -67,7 +71,12 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         presenter = DetailFragmentPresenter(this, activity!!)
         val product = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
 
-//        if (selectdProduct.lists == null) {
+        if (locationPermissonsApproved()) {
+
+        } else {
+            showError("Не удалось определить вашу геопозицию, проверьте настройки приложения")
+        }
+
         if (Utils().isInternetAvailable()) {
             presenter.getProductById(product.id, 0.0, 0.0)
             presenter.onViewCreated(product.id)
@@ -75,10 +84,15 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
             showError(getString(R.string.no_connection_message))
         }
 
-//        } else {
-//            initProductData(selectdProduct)
-//        }
         view_back.setOnClickListener { activity!!.onBackPressed() }
+    }
+
+    private fun locationPermissonsApproved(): Boolean {
+        val context = context ?: return false
+        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     override fun initProductData(selectedProduct: Product) {

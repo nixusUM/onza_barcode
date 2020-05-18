@@ -77,10 +77,12 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
         }
 
         icon_clear.setOnClickListener {
-            var adapter = list_shops.adapter as SimpleAdapter
-            edt_search.setText("")
-            adapter.filterShops("")
-            showNoResultPlaceHolder(false)
+            if (list_shops.adapter != null) {
+                var adapter = list_shops.adapter as SimpleAdapter
+                edt_search.setText("")
+                adapter.filterShops("")
+                showNoResultPlaceHolder(false)
+            }
         }
 
         textWather = object : TextWatcher {
@@ -91,13 +93,15 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                var adapter = list_shops.adapter as SimpleAdapter
-                if (p0!!.length > 2) {
-                    adapter.filterShops(p0.toString())
-                    showNoResultPlaceHolder(adapter.items.isEmpty())
-                } else {
-                    adapter.filterShops("")
-                    showNoResultPlaceHolder(false)
+                if (list_shops.adapter != null) {
+                    var adapter = list_shops.adapter as SimpleAdapter
+                    if (p0!!.length > 2) {
+                        adapter.filterShops(p0.toString())
+                        showNoResultPlaceHolder(adapter.items.isEmpty())
+                    } else {
+                        adapter.filterShops("")
+                        showNoResultPlaceHolder(false)
+                    }
                 }
             }
         }

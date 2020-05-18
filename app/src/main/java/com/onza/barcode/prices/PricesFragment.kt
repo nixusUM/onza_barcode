@@ -85,9 +85,8 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
             obtieneLocalizacion()
         } else {
-            view_prices_placeholder.visibility = View.VISIBLE
+            getPrices()
         }
-
     }
 
     private fun locationPermissonsApproved(): Boolean {
@@ -110,13 +109,17 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
                     lat = location.latitude
                     lon = location.longitude
                 }
-                if (Utils().isInternetAvailable()) {
-                    presenter.getProductPrices(selectedProduct.id, lat, lon)
-                } else {
-                    showError(getString(R.string.no_connection_message))
-                    showProductPrices(ArrayList<Price>())
-                }
+                getPrices()
             }
+    }
+
+    private fun getPrices() {
+        if (Utils().isInternetAvailable()) {
+            presenter.getProductPrices(selectedProduct.id, lat, lon)
+        } else {
+            showError(getString(R.string.no_connection_message))
+            showProductPrices(ArrayList<Price>())
+        }
     }
 
     fun showAddedPriceDialog(productPirce: Float) {

@@ -135,7 +135,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
                 .request { granted, denied, permanentlyDenied ->
-                    if (granted.toString().isNotEmpty()) {
+                    if (granted.isNotEmpty()) {
                         initLocation()
                     }
                     Log.i("granted", granted.toString())
@@ -228,13 +228,15 @@ class BarCodeFragment: Fragment(), BarCodeView,
 
     @SuppressLint("MissingPermission")
     private fun obtieneLocalizacion() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    lat = location.latitude
-                    lon = location.longitude
+        if (this::fusedLocationClient.isInitialized) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        lat = location.latitude
+                        lon = location.longitude
+                    }
                 }
-            }
+        }
     }
 
     private fun getProduct(gtin: String) {
@@ -401,6 +403,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
             list_scanned.layoutManager!!.onRestoreInstanceState(recyclerViewState)
         }
         if (cameraPermissonsApproved()) {
+//            initCamera()
             codeScanner.startPreview()
         }
     }
