@@ -20,6 +20,7 @@ class ShopActivityPresenter (val view: ShopView, val context: Context) {
     private var gson: Gson
     private var apiService: ApiService
     private var shopList = ArrayList<Shop>()
+    private var query = ""
 
     init {
         gson = GsonBuilder()
@@ -28,8 +29,12 @@ class ShopActivityPresenter (val view: ShopView, val context: Context) {
         apiService = ApiServiceCreator.createService(gson, context)
     }
 
-    fun getNeearShops(lat: Double, lon: Double, page: Int) {
-        apiService.getNearShops(lat, lon, page)
+    fun getNeearShops(lat: Double, lon: Double, query: String, page: Int) {
+        if (query != this.query) {
+            shopList.clear()
+            this.query = query
+        }
+        apiService.getNearShops(lat, lon, query, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (

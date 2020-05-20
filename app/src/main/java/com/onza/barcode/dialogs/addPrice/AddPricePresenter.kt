@@ -45,7 +45,7 @@ class AddPricePresenter(val view: AddPriceView, val context: Context) {
     }
 
     fun getNeearShops(lat: Double, lon: Double, page: Int) {
-        apiService.getNearShops(lat, lon, page)
+        apiService.getNearShops(lat, lon, "", page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (

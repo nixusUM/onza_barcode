@@ -76,6 +76,12 @@ open class SimpleAdapter(
         notifyDataSetChanged()
     }
 
+    fun clearAdapter() {
+        var shops = items as ArrayList<Shop>
+        shops.clear()
+        notifyDataSetChanged()
+    }
+
     fun filterCategories(text: String) {
         var categories = items as ArrayList<Category>
         if (filterdListCategories.isEmpty()) {

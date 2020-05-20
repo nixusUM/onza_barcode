@@ -128,19 +128,23 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         view_review_count.setOnClickListener { eventListener!!.pushFragment(ReviewsFragment.getInstance(selectdProduct)) }
         product_rating.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
         cardView_post_review.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
-        if (selectdProduct.avg_price != null && selectdProduct.avg_price != 0f) {
-            view_price_detail.visibility = View.VISIBLE
-            textView_price_detail.text = "~ " + String.format("%.2f", selectdProduct.avg_price) + " Р"
-            priceText = when (selectdProduct.amounts!!.prices) {
-                1 -> " Цена"
-                2 -> " Цены"
-                3 -> " Цены"
-                4 -> " Цены"
-                else -> " Цен"
-            }
-            textView_price_count_detail.text = selectdProduct.amounts!!.prices.toString() + priceText
-            view_price_detail.setOnClickListener {
-                eventListener!!.pushFragment(PricesFragment.getInstance(selectdProduct))
+        if (selectdProduct.permissions!!.has_added_price) {
+            if (selectdProduct.avg_price != null && selectdProduct.avg_price != 0f) {
+                view_price_detail.visibility = View.VISIBLE
+                textView_price_detail.text =
+                    "~ " + String.format("%.2f", selectdProduct.avg_price) + " Р"
+                priceText = when (selectdProduct.amounts!!.prices) {
+                    1 -> " Цена"
+                    2 -> " Цены"
+                    3 -> " Цены"
+                    4 -> " Цены"
+                    else -> " Цен"
+                }
+                textView_price_count_detail.text =
+                    selectdProduct.amounts!!.prices.toString() + priceText
+                view_price_detail.setOnClickListener {
+                    eventListener!!.pushFragment(PricesFragment.getInstance(selectdProduct))
+                }
             }
         } else {
             cardView_add_price.visibility = View.VISIBLE

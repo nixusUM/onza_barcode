@@ -42,7 +42,9 @@ class ProductListActivityPresenter(val view: ProductListView, val context: Conte
             .subscribe (
                 {
                     view.showFavourites(prepareItemsToDisplay(it.body()!!.data!!))
-                    view.showFavouriteView(it.body()!!.data!!)
+                    if (it.body()!!.data!!.isNotEmpty()) {
+                        view.showFavouriteView(it.body()!!.data!!)
+                    }
                 },
                 {
                     Log.i("error:", it.toString())

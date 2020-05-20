@@ -261,7 +261,7 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
         for (i in products.indices) {
             for (item in products[i].products) {
                 if (item.product.avg_price != null) {
-                    totalAmount += item.product.avg_price
+                    totalAmount += item.product.avg_price * item.count
                 }
             }
         }

@@ -42,6 +42,8 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     private var lastFirstVisiblePosition = 0
     private var paginationPge = false
     private lateinit var textWather: TextWatcher
+    private var query = ""
+    private var shopListResult = ArrayList<Shop>()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lat = 0.0
@@ -78,10 +80,9 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
 
         icon_clear.setOnClickListener {
             if (list_shops.adapter != null) {
-                var adapter = list_shops.adapter as SimpleAdapter
                 edt_search.setText("")
-                adapter.filterShops("")
-                showNoResultPlaceHolder(false)
+                query = ""
+                obtieneLocalizacion()
             }
         }
 
@@ -94,13 +95,12 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (list_shops.adapter != null) {
-                    var adapter = list_shops.adapter as SimpleAdapter
                     if (p0!!.length > 2) {
-                        adapter.filterShops(p0.toString())
-                        showNoResultPlaceHolder(adapter.items.isEmpty())
+                        query = p0.toString()
+                        obtieneLocalizacion()
                     } else {
-                        adapter.filterShops("")
-                        showNoResultPlaceHolder(false)
+                        query = ""
+                        obtieneLocalizacion()
                     }
                 }
             }
@@ -140,6 +140,8 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
 
     @SuppressLint("MissingPermission")
     private fun obtieneLocalizacion() {
+        progressBar.visibility = View.VISIBLE
+        list_shops.visibility = View.GONE
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 if (location != null) {
@@ -147,7 +149,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
                     lon = location.longitude
                 }
                 if (Utils().isInternetAvailable()) {
-                    presenter.getNeearShops(lat, lon, 1)
+                    presenter.getNeearShops(lat, lon, query,1)
                 } else {
                     showError(getString(R.string.no_connection_message))
                     showShopList(ArrayList<Shop>())
@@ -218,13 +220,14 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     }
 
     override fun showShopList(shopList: List<Shop>) {
-        progressBar.visibility = View.GONE
         if (shopList.isEmpty()) {
+            this.shopListResult.clear()
             view_no_result.visibility = View.VISIBLE
             list_shops.visibility = View.GONE
             return
         }
 
+        list_shops.visibility = View.VISIBLE
         progressBar.visibility = View.GONE
         progressBar_endless.visibility = View.GONE
         paginationPge = false
@@ -235,8 +238,11 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
             false
         )
 
+        this.shopListResult.clear()
+        this.shopListResult.addAll(shopList)
+
         with(list_shops) {
-            adapter = SimpleAdapter(shopList, adapterManager)
+            adapter = SimpleAdapter(shopListResult, adapterManager)
             setLayoutManager(layoutManager)
         }
 
@@ -247,7 +253,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
                     lastFirstVisiblePosition = layoutManager.findLastVisibleItemPosition()
                     progressBar_endless.visibility = View.VISIBLE
                     paginationPge = true
-                    presenter.getNeearShops(lat, lon, page + 1)
+                    presenter.getNeearShops(lat, lon, query, page + 1)
                 }
             }
         })

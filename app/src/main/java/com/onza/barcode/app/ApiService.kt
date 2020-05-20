@@ -74,7 +74,7 @@ interface ApiService {
 
     @GET("shops/nearest")
     @Headers(AUTHORIZATION)
-    fun getNearShops(@Query("lat") lat: Double, @Query("lon") lon: Double, @Query("page") page: Int): Observable<Response<BaseResponse<List<Shop>>>>
+    fun getNearShops(@Query("lat") lat: Double, @Query("lon") lon: Double,  @Query("q") q: String, @Query("page") page: Int): Observable<Response<BaseResponse<List<Shop>>>>
 
     @POST("products/{id}/prices")
     @Headers(AUTHORIZATION)

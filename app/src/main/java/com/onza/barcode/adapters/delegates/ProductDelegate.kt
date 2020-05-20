@@ -29,18 +29,20 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
         var priceText = "Цен"
 //        holder.location.text = item.description
 
-        if (item.avg_price != null && item.avg_price != 0f) {
-            holder.addPriceView.visibility = View.GONE
-            holder.priceView.visibility = View.VISIBLE
-            holder.price.text = "~ " + String.format("%.2f", item.avg_price) + " Р"
-            priceText = when (item.amounts!!.prices) {
-                1 -> " Цена"
-                2 -> " Цены"
-                3 -> " Цены"
-                4 -> " Цены"
-                else -> " Цен"
+        if (item.permissions!!.has_added_price) {
+            if (item.avg_price != null && item.avg_price != 0f) {
+                holder.addPriceView.visibility = View.GONE
+                holder.priceView.visibility = View.VISIBLE
+                holder.price.text = "~ " + String.format("%.2f", item.avg_price) + " Р"
+                priceText = when (item.amounts!!.prices) {
+                    1 -> " Цена"
+                    2 -> " Цены"
+                    3 -> " Цены"
+                    4 -> " Цены"
+                    else -> " Цен"
+                }
+                holder.priceCount.text = item.amounts!!.prices.toString() + priceText
             }
-            holder.priceCount.text = item.amounts!!.prices.toString() + priceText
         } else {
             holder.priceView.visibility = View.GONE
             holder.addPriceView.visibility = View.VISIBLE

@@ -181,9 +181,12 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
             return
         }
 
+        var layoutManager = GridLayoutManager(context, 2)
         list_history.visibility = View.VISIBLE
 
-        val layoutManager = GridLayoutManager(context, 2)
+        if (historyList.size == 1) {
+            layoutManager = GridLayoutManager(context, 1)
+        }
 
         with(list_history) {
             adapter = com.onza.barcode.adapters.SimpleAdapter(historyList, adapterManager)
