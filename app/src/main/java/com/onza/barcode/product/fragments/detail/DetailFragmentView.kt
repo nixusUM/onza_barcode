@@ -12,4 +12,5 @@ interface DetailFragmentView {
     fun showError(text: String?)
     fun showReviwes(reviews: List<Reviews>, count: Int)
     fun initProductData(product: Product)
+    fun showAddedReviewDialog(ownerRating: Float)
 }

@@ -10,8 +10,10 @@ import com.onza.barcode.app.ApiServiceCreator
 import com.onza.barcode.base.BaseError
 import com.onza.barcode.data.model.NoProduct
 import com.onza.barcode.data.model.ongoing.Count
+import com.onza.barcode.data.model.ongoing.Rating
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.FieldPosition
 
 /**
  * Created by Ilia Polozov on 04/January/2020
@@ -21,6 +23,7 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
 
     private var gson: Gson
     private var apiService: ApiService
+    private var gtin = ""
 
     init {
         gson = GsonBuilder()
@@ -30,7 +33,11 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
     }
 
     fun getProductByBarCode(gtin: String, lat: Double, lon: Double) {
-        apiService.getProductByBarCode(gtin, lat, lon)
+        if (gtin == this.gtin) {
+            return
+        }
+        this.gtin = gtin
+        apiService.getProductByBarCode(this.gtin, lat, lon)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
@@ -66,6 +73,21 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
                 {
                     Log.i("aa:", it.toString())
 //                    view.showFavouriteView(it.body()!!.data!!)
+                },
+                {
+                    Log.i("error:", it.toString())
+                    view.showError(it.toString())
+                })
+    }
+
+    fun addReview(productId: Int, rating: Double, position: Int, gtin: String) {
+        apiService.postProductJustRating(productId, Rating(rating))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                {
+                    Log.i("response review: ", it.toString())
+                    view.showAddedReviewDialog(gtin, position, it.body()!!.data!!.product_updates.owner_rating)
                 },
                 {
                     Log.i("error:", it.toString())

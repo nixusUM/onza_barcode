@@ -10,6 +10,8 @@ import com.onza.barcode.data.model.NoProduct
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Reviews
 import com.onza.barcode.data.model.ongoing.Count
+import com.onza.barcode.data.model.ongoing.Rating
+import com.onza.barcode.data.model.ongoing.Review
 import com.onza.barcode.reviews.ReviewsFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -106,6 +108,21 @@ class DetailFragmentPresenter(val view: DetailFragmentView, val activity: Fragme
                 },
                 {
                     Log.i("addProductError:", it.toString())
+                    view.showError(it.toString())
+                })
+    }
+
+    fun addReview(productId: Int, rating: Double) {
+        apiService.postProductJustRating(productId, Rating(rating))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe (
+                {
+                    Log.i("response review: ", it.toString())
+                    view.showAddedReviewDialog(it.body()!!.data!!.product_updates.owner_rating)
+                },
+                {
+                    Log.i("error:", it.toString())
                     view.showError(it.toString())
                 })
     }

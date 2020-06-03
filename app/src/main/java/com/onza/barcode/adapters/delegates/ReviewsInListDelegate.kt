@@ -31,7 +31,7 @@ class ReviewsInListDelegate(context: Context, val callback: ItemClick)
                 .into(holder.avatar)
         }
         holder.name.text = item.author.name
-        holder.starCount.text = item.rating.toString()
+        holder.starCount.text = item.rating.toString().substring(0, item.rating.toString().indexOf("."))
         holder.date.text = SimpleDateFormat("dd MMMM, HH:mm a", Locale.US).format(item.updated_at)
         if (item.positive_text.isNullOrEmpty()) {
             holder.viewPositive.visibility = View.GONE

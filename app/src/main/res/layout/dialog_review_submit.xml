@@ -64,7 +64,6 @@
                 android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraint_header"
-                android:text="Вы оценили этот товар на 3 из 5. Ваша оценка учтена."
                 android:layout_width="190dp"
                 android:layout_height="wrap_content"/>
 

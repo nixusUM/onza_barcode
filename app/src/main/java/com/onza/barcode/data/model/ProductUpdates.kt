@@ -10,4 +10,5 @@ data class ProductUpdates(val id: Int,
                           val rating: Float,
                           val avg_price: Float,
                           val amounts: Amounts,
+                          val owner_rating: Float,
                           val permissions: Permissions): Serializable

@@ -26,8 +26,10 @@ class HistoryDelegate(context: Context, val callback: ItemClick, val productCall
     override fun onBindViewHolder(position: Int, item: HistoryData, holder: ViewHolder, payloads: MutableList<Any>) {
         holder.name.text = item.product.name
         holder.address.text = item.product.production_place
-        holder.rating.rating = item.product.rating.toFloat()
-        holder.ratingCount.text = item.product.rating.toString()
+        if (item.product.avg_rating != null) {
+            holder.rating.rating = item.product.avg_rating.toFloat()
+            holder.ratingCount.text = item.product.avg_rating.toString()
+        }
         holder.price.text =  "~ " + String.format("%.2f", item.product.avg_price) + " Р"
 
         if (!item.product.images.isNullOrEmpty()) {

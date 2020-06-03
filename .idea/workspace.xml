@@ -340,13 +340,12 @@
       <change beforePath="$PROJECT_DIR$/New Folder With Items/gradlew.bat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/New Folder With Items/settings.gradle" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Galaxy_Nexus_API_23" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="PL2GAR9812103745" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -369,8 +368,8 @@
         <option value="layoutResourceFile_vertical" />
         <option value="Kotlin Class" />
         <option value="Class" />
-        <option value="Kotlin File" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin File" />
       </list>
     </option>
   </component>
@@ -387,6 +386,11 @@
   </component>
   <component name="ProjectId" id="1aXbwFJF0mA7y9w3a22QtsQhosP" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ApkExportedModule" value="app" />
     <property name="DEBUGGABLE_DEVICE" value="hmd_global-nokia_6_1-PL2GAR9812103745" />
@@ -435,18 +439,6 @@
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" />
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -633,6 +625,112 @@
     <MESSAGE value="fixed crash with null shops" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed crash with null shops" />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="927" y="291" key="#com.intellij.ide.util.MemberChooser" timestamp="1591117216179">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="927" y="291" key="#com.intellij.ide.util.MemberChooser/0.23.1920.1177@0.23.1920.1177" timestamp="1591117216179" />
+    <state x="1004" y="424" key="AndroidCreateXmlResourceDialog" timestamp="1591115457988">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="1004" y="424" key="AndroidCreateXmlResourceDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1591115457988" />
+    <state x="1005" y="342" key="AndroidProcessChooserDialog" timestamp="1591119069022">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="1005" y="342" key="AndroidProcessChooserDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1591119069022" />
+    <state width="1395" height="129" key="GridCell.Tab.0.bottom" timestamp="1591183403298">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="129" key="GridCell.Tab.0.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1591183403298" />
+    <state width="1395" height="129" key="GridCell.Tab.0.center" timestamp="1591183403298">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="129" key="GridCell.Tab.0.center/0.23.1920.1177@0.23.1920.1177" timestamp="1591183403298" />
+    <state width="1395" height="129" key="GridCell.Tab.0.left" timestamp="1591183403297">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="129" key="GridCell.Tab.0.left/0.23.1920.1177@0.23.1920.1177" timestamp="1591183403297" />
+    <state width="1395" height="129" key="GridCell.Tab.0.right" timestamp="1591183403298">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="129" key="GridCell.Tab.0.right/0.23.1920.1177@0.23.1920.1177" timestamp="1591183403298" />
+    <state width="1395" height="279" key="GridCell.Tab.1.bottom" timestamp="1591125749650">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.1.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749650" />
+    <state width="1395" height="279" key="GridCell.Tab.1.center" timestamp="1591125749650">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.1.center/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749650" />
+    <state width="1395" height="279" key="GridCell.Tab.1.left" timestamp="1591125749650">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.1.left/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749650" />
+    <state width="1395" height="279" key="GridCell.Tab.1.right" timestamp="1591125749650">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.1.right/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749650" />
+    <state width="1395" height="279" key="GridCell.Tab.2.bottom" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.2.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.2.center" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.2.center/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.2.left" timestamp="1591125749650">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.2.left/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749650" />
+    <state width="1395" height="279" key="GridCell.Tab.2.right" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.2.right/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.3.bottom" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.3.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.3.center" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.3.center/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.3.left" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.3.left/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.3.right" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.3.right/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.4.bottom" timestamp="1591125749652">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.4.bottom/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749652" />
+    <state width="1395" height="279" key="GridCell.Tab.4.center" timestamp="1591125749652">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.4.center/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749652" />
+    <state width="1395" height="279" key="GridCell.Tab.4.left" timestamp="1591125749651">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.4.left/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749651" />
+    <state width="1395" height="279" key="GridCell.Tab.4.right" timestamp="1591125749652">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="1395" height="279" key="GridCell.Tab.4.right/0.23.1920.1177@0.23.1920.1177" timestamp="1591125749652" />
+    <state width="588" height="456" key="SwitcherDM" timestamp="1591125560273">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="588" height="456" key="SwitcherDM/0.23.1920.1177@0.23.1920.1177" timestamp="1591125560273" />
+    <state width="650" height="170" key="javadoc.popup.new" timestamp="1591125663983">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state width="650" height="170" key="javadoc.popup.new/0.23.1920.1177@0.23.1920.1177" timestamp="1591125663983" />
+    <state x="692" y="308" width="670" height="676" key="search.everywhere.popup" timestamp="1591115638007">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="692" y="308" width="670" height="676" key="search.everywhere.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1591115638007" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -653,7 +751,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>442</line>
+          <line>446</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -678,17 +776,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>536</line>
+          <line>546</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/dialogs/addReview/AddReviewDialog.kt</url>
-          <line>199</line>
+          <line>200</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>190</line>
+          <line>194</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -718,22 +816,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragmentPresenter.kt</url>
-          <line>46</line>
+          <line>48</line>
           <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragmentPresenter.kt</url>
-          <line>59</line>
+          <line>61</line>
           <option name="timeStamp" value="85" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragmentPresenter.kt</url>
-          <line>64</line>
+          <line>66</line>
           <option name="timeStamp" value="87" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragmentPresenter.kt</url>
-          <line>67</line>
+          <line>69</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -748,12 +846,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragment.kt</url>
-          <line>116</line>
+          <line>119</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/adapters/delegates/CompareProductDelegate.kt</url>
-          <line>133</line>
+          <line>135</line>
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -788,7 +886,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>165</line>
+          <line>169</line>
           <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
@@ -818,13 +916,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/product/fragments/detail/DetailFragment.kt</url>
-          <line>192</line>
+          <line>219</line>
           <option name="timeStamp" value="140" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
-          <line>404</line>
+          <line>408</line>
           <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/fragments/BarCodeFragment.kt</url>
+          <line>542</line>
+          <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/onza/barcode/data/model/Product.kt</url>

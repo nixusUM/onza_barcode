@@ -179,7 +179,8 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
             )
         view_add_review.setOnClickListener {
             if (Utils().isInternetAvailable()) {
-                presenter.addReview(selectdProduct.id, selectdProduct.rating, selectedShop.id, positive.text.toString(), negative.text.toString(), review_text.text.toString())
+                presenter.addReview(selectdProduct.id,
+                    selectdProduct.owner_rating!!.toDouble(), selectedShop.id, positive.text.toString(), negative.text.toString(), review_text.text.toString())
             } else {
                 showError(getString(R.string.no_connection_message))
             }
@@ -195,7 +196,7 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
         showError(text)
     }
 
-    override fun successAdded() {
+    override fun successAdded(ownerRating: Float) {
         eventListener!!.logEvent("ProductReview", "GoodsReview", null, selectdProduct.id.toLong())
         if (parentFragment is ReviewsFragment) {
             val parentFragment = parentFragment as ReviewsFragment
@@ -203,7 +204,7 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
             dismiss()
         } else  if (parentFragment is BarCodeFragment) {
             val parentFragment = parentFragment as BarCodeFragment
-            parentFragment.showAddedReviewDialog(selectdProduct.gtin!!, arguments!!.getInt(POSITION))
+            parentFragment.showAddedReviewDialog(selectdProduct.gtin!!, arguments!!.getInt(POSITION), ownerRating)
             dismiss()
         } else {
             val parentFragment = parentFragment as DetailFragment

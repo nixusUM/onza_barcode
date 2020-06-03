@@ -27,8 +27,10 @@ class ProductInListDelegate(context: Context, val callback: ItemClick)
         holder.name.text = item.product.name
         holder.description.text = item.product.description
         holder.price.text = "~ " + String.format("%.2f", item.product.avg_price) + " Р"
-        holder.rating.rating = item.product.rating.toFloat()
-        holder.ratingText.text = item.product.rating.toString()
+        if (item.product.avg_rating != null) {
+            holder.rating.rating = item.product.avg_rating!!.toFloat()
+            holder.ratingText.text = item.product.avg_rating!!.toString()
+        }
         holder.peopleCount.text = item.product.amounts!!.rates.toString()
         holder.commentCount.text = item.product.amounts.reviews.toString()
         holder.productCount.text = item.count.toString() + " Шт"

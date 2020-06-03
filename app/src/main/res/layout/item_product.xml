@@ -88,7 +88,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="~155 Р"
                         android:textColor="@android:color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -100,7 +99,6 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="2dp"
                         android:layout_gravity="end"
-                        android:text="1 цена"
                         android:textColor="#A3B1C1"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -149,7 +147,6 @@
                 <com.ymb.ratingbar_lib.RatingBar
                     android:numStars="5"
                     android:stepSize="1"
-                    app:is_indicator="true"
                     android:id="@+id/product_rating"
                     android:layout_gravity="center"
                     app:drawable_empty="@drawable/ic_star_empty"

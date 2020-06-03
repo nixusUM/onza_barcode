@@ -9,6 +9,6 @@ import com.onza.barcode.data.model.Shop
 interface AddReviewView {
 
     fun showMessage(text: String?)
-    fun successAdded()
+    fun successAdded(ownerRating: Float)
     fun initShop(shops: List<Shop>?)
 }

@@ -54,7 +54,9 @@ class CompareProductDelegate(context: Context, val callback: ItemClick)
         }
 
         holder.location.text = item.production_place
-        holder.rating.text = item.rating.toString()
+        if (item.avg_rating != null) {
+            holder.rating.text = item.avg_rating.toString()
+        }
         holder.rates.text = item.amounts!!.rates.toString()
         holder.rates.text = item.amounts.reviews.toString()
 

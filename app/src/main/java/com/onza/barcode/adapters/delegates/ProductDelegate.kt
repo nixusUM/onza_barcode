@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.onza.barcode.R
 import com.onza.barcode.data.model.Product
 import com.ymb.ratingbar_lib.RatingBar
+import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.item_product.view.*
 
 /**
@@ -48,8 +49,11 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
             holder.addPriceView.visibility = View.VISIBLE
         }
 
-        holder.rating.rating = item.rating.toFloat()
-        holder.ratingStar.text = item.rating.toString()
+        if (item.owner_rating != null) {
+            holder.rating.rating = item.owner_rating!!.toFloat()
+            holder.ratingStar.text = item.owner_rating.toString()
+        }
+
         holder.rates.text = item.amounts!!.rates.toString()
 
         holder.addPrice.setOnClickListener { addPriceCallback.onAddPriceClicked(item, holder.adapterPosition) }
@@ -58,9 +62,20 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
             favouriteCallback.onAddToFavouriteClicked(item)
         }
 
-        holder.addReview.setOnClickListener {
-            reviewCallBack.onAddReviewClicked(item, holder.adapterPosition)
-        }
+        holder.rating.setOnRatingChangedListener(object : android.widget.RatingBar.OnRatingBarChangeListener,
+            RatingBar.OnRatingChangedListener {
+            override fun onRatingChanged(ratingBar: android.widget.RatingBar?, rating: Float, fromUser: Boolean) {
+
+            }
+
+            override fun onRatingChange(p0: Float, p1: Float) {
+                reviewCallBack.onAddReviewClicked(item, position, p1.toDouble())
+            }
+        })
+
+//        holder.addReview.setOnClickListener {
+//            reviewCallBack.onAddReviewClicked(item, holder.adapterPosition)
+//        }
     }
 
     override fun isForViewType(item: Any?): Boolean = item is Product
@@ -105,7 +120,7 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
     }
 
     interface ReviewCallback {
-        fun onAddReviewClicked(selectedProduct: Product, position: Int)
+        fun onAddReviewClicked(selectedProduct: Product, position: Int, ratingCount: Double)
     }
 
 }

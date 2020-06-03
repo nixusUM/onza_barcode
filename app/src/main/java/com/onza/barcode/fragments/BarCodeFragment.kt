@@ -56,6 +56,9 @@ import kotlinx.android.synthetic.main.dialog_add_product_to_list.*
 import kotlinx.android.synthetic.main.dialog_price_submit.*
 import kotlinx.android.synthetic.main.dialog_review_submit.*
 import kotlinx.android.synthetic.main.fragment_barcode.*
+import kotlinx.android.synthetic.main.fragment_barcode.progressBar
+import kotlinx.android.synthetic.main.fragment_barcode.rootView
+import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.item_product_logo.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.txt_more_Count
@@ -87,6 +90,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
     private lateinit var prefs: SharedPreferences
     private var recyclerViewState: Parcelable? = null
     private var isScanning = false
+    private var isRatingSending = false
 
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
@@ -443,8 +447,10 @@ class BarCodeFragment: Fragment(), BarCodeView,
         showAddProductToListDialog(selectedProduct)
     }
 
-    override fun onAddReviewClicked(selectedProduct: Product, position: Int) {
-        AddReviewDialog.getInstance(selectedProduct, position).show(this.childFragmentManager, "add review")
+    override fun onAddReviewClicked(selectedProduct: Product, position: Int, ratingCount: Double) {
+        isRatingSending = true
+        presenter.addReview(selectedProduct.id, ratingCount, position, this.gtin)
+//        AddReviewDialog.getInstance(selectedProduct, position).show(this.childFragmentManager, "add review")
     }
 
     private fun showAddProductToListDialog(selectedProduct: Product) {
@@ -533,13 +539,19 @@ class BarCodeFragment: Fragment(), BarCodeView,
         getProduct(gtin)
     }
 
-    fun showAddedReviewDialog(gtin: String, position: Int) {
+    override fun showAddedReviewDialog(gtin: String, position: Int, ownerRating: Float) {
+        isRatingSending = false
+        if (progressBar != null && progressBar.visibility == View.VISIBLE) {
+            progressBar.visibility = View.GONE
+        }
         val dialog = Dialog(activity!!, R.style.CustomAlertDialogStyle)
         dialog.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         dialog.window.setBackgroundDrawableResource(R.color.dark_transparent)
         dialog.window.attributes.windowAnimations = R.style.DialogAnimation
         dialog.setContentView(R.layout.dialog_review_submit)
         dialog.setCancelable(true)
+
+        dialog.review_hint.text = String.format(getString(R.string.rating_hint, ownerRating.roundToInt()))
 
         dialog.view_add_review.setOnClickListener {
             var adapter = list_scanned.adapter as SimpleAdapter

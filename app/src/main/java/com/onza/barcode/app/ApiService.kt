@@ -3,10 +3,7 @@ package com.onza.barcode.app
 import com.onza.barcode.base.BaseResponse
 import com.onza.barcode.data.Price
 import com.onza.barcode.data.model.*
-import com.onza.barcode.data.model.ongoing.AddPriceModel
-import com.onza.barcode.data.model.ongoing.AddProduct
-import com.onza.barcode.data.model.ongoing.Count
-import com.onza.barcode.data.model.ongoing.Review
+import com.onza.barcode.data.model.ongoing.*
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -84,6 +81,11 @@ interface ApiService {
     @POST("products/{id}/reviews")
     @Headers(AUTHORIZATION)
     fun postProductReview(@Path(value = "id") id: Int, @Body data: Review)
+            : Observable<Response<BaseResponse<ProductUpdatesResponse>>>
+
+    @POST("products/{id}/reviews")
+    @Headers(AUTHORIZATION)
+    fun postProductJustRating(@Path(value = "id") id: Int, @Body data: Rating)
             : Observable<Response<BaseResponse<ProductUpdatesResponse>>>
 
     @DELETE("reviews/{id}")

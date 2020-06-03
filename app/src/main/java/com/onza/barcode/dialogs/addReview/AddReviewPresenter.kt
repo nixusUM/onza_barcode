@@ -34,7 +34,7 @@ class AddReviewPresenter (val context: Context, val view: AddReviewView) {
             .subscribe (
                 {
                     Log.i("response review: ", it.toString())
-                    view.successAdded()
+                    view.successAdded(it.body()!!.data!!.product_updates.owner_rating)
                 },
                 {
                     Log.i("error:", it.toString())

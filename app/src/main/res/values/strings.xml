@@ -13,4 +13,9 @@
     <string name="title_gallery">Галлерея</string>
     <string name="action_cancel">Отмена</string>
     <string name="ucrop_label_edit_photo"> </string>
+    <string name="ucrop_rotate">Перевернуть</string>
+    <string name="ucrop_scale">Шкала</string>
+    <string name="ucrop_crop">Обрезать</string>
+    <string name="ucrop_menu_crop">ОБрезать</string>
+    <string name="rating_hint">Вы оценили этот товар на %d из 5. Ваша оценка учтена.</string>
 </resources>

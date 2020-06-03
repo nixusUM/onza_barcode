@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.RatingBar
+import android.widget.RatingBar.OnRatingBarChangeListener
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,13 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.alterevit.gorodminiapp.library.MiniAppCallback
-import com.androidisland.ezpermission.EzPermission
-import com.google.android.material.snackbar.Snackbar
 import com.hannesdorfmann.adapterdelegates4.AdapterDelegatesManager
 import com.onza.barcode.R
 import com.onza.barcode.adapters.ViewPagerPhotoAdapter
 import com.onza.barcode.adapters.delegates.ReviewsDelegate
-import com.onza.barcode.compare.CompareFragment
 import com.onza.barcode.compare.products.CompareProdutsFragment
 import com.onza.barcode.data.model.Product
 import com.onza.barcode.data.model.Reviews
@@ -35,8 +34,11 @@ import com.onza.barcode.reviews.ReviewsFragment
 import com.onza.barcode.utils.LinePagerIndicatorDecoration
 import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_product_to_list.*
+import kotlinx.android.synthetic.main.dialog_review_submit.*
 import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.fragment_product_detail.textView_name
+import kotlin.math.roundToInt
+
 
 /**
  * Created by Ilia Polozov on 28/January/2020
@@ -56,6 +58,7 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
     private lateinit var selectdProduct: Product
     private lateinit var dialog: Dialog
     private var eventListener: MiniAppCallback? = null
+    private var isRatingSending = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -125,9 +128,33 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
             view_remove_from_compare.visibility = View.GONE
         }
 
-        view_review_count.setOnClickListener { eventListener!!.pushFragment(ReviewsFragment.getInstance(selectdProduct)) }
-        product_rating.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
+        if (selectdProduct.owner_rating != null) {
+            product_rating.rating = selectdProduct.owner_rating!!
+        }
+
+        view_review_count.setOnClickListener {
+            eventListener!!.pushFragment(ReviewsFragment.getInstance(selectdProduct))
+        }
+
         cardView_post_review.setOnClickListener { AddReviewDialog.getInstance(selectedProduct, 0).show(this.childFragmentManager, "add review")}
+
+
+        product_rating.setOnRatingChangedListener(object : RatingBar.OnRatingBarChangeListener,
+            com.ymb.ratingbar_lib.RatingBar.OnRatingChangedListener {
+            override fun onRatingChanged(ratingBar: RatingBar?, rating: Float, fromUser: Boolean) {
+
+            }
+
+            override fun onRatingChange(p0: Float, p1: Float) {
+                if (progressBar != null) {
+                    progressBar.visibility = View.VISIBLE
+                }
+                isRatingSending = true
+                presenter.addReview(selectedProduct.id, p1.toDouble())
+            }
+        })
+
+
         if (selectdProduct.permissions!!.has_added_price) {
             if (selectdProduct.avg_price != null && selectdProduct.avg_price != 0f) {
                 view_price_detail.visibility = View.VISIBLE
@@ -293,6 +320,32 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
             )
             this.dialog.txt_add.setTextColor(ContextCompat.getColor(activity!!, R.color.dark_transparent))
         }
+    }
+
+    override fun showAddedReviewDialog(ownerRating: Float) {
+        isRatingSending = false
+        if (progressBar != null) {
+            progressBar.visibility = View.GONE
+        }
+        val dialog = Dialog(activity!!, R.style.CustomAlertDialogStyle)
+        dialog.window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        dialog.window.setBackgroundDrawableResource(R.color.dark_transparent)
+        dialog.window.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.setContentView(R.layout.dialog_review_submit)
+        dialog.setCancelable(true)
+
+        dialog.review_hint.text = String.format(getString(R.string.rating_hint, ownerRating.roundToInt()))
+
+        dialog.view_add_review.setOnClickListener {
+            presenter.onViewCreated(selectdProduct.id)
+            dialog.dismiss()
+        }
+
+        dialog.view_cancel_review.setOnClickListener {
+            presenter.onViewCreated(selectdProduct.id)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     override fun onReviewClicked() {

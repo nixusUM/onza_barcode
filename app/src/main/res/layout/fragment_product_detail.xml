@@ -490,7 +490,6 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         android:stepSize="1"
-                        app:is_indicator="true"
                         android:id="@+id/product_rating"
                         android:layout_gravity="center"
                         app:rating="0"

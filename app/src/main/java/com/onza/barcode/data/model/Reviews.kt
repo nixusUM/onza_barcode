@@ -15,6 +15,8 @@ data class Reviews(
     val shop_id: Int?,
     val product_id: Int,
     val person_uid: String?,
+    val owner_rating: Float,
+    val avg_rating: Float?,
     val production_place: String,
     val created_at: String,
     val author: Author,
