@@ -46,7 +46,7 @@ dependencies {
 
     implementation 'com.hannesdorfmann:adapterdelegates4:4.0.0'
 
-    implementation 'ru.rtgsoft.gitlab.Kroshchkin:gorodminiapp:1.5'
+    implementation 'com.github.DimaKron:GorodMiniApp:1.0'
 
     //ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:1.7.1'
@@ -57,8 +57,6 @@ dependencies {
     implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
 
     implementation 'com.github.yangmbin:RatingBar:1.0.0'
-
-
 
     //rx
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'

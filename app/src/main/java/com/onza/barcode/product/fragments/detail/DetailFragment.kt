@@ -356,10 +356,13 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
         if (progressBar != null) {
             progressBar.visibility = View.GONE
         }
-        if (text != null) {
-            Toast.makeText(activity!!, text, Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(activity!!, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+
+        if (review_list != null) {
+            if (text != null) {
+                Toast.makeText(activity!!, text, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(activity!!, "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

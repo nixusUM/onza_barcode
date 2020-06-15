@@ -24,7 +24,10 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
                       val favouriteCallback: onAddToFavourite, val productCallback: ProductCallback, val reviewCallBack: ReviewCallback)
     : BaseDelegate<ProductDelegate.ViewHolder, Product>(context) {
 
+    private var firstTime = true
+
     override fun onBindViewHolder(position: Int, item: Product, holder: ViewHolder, payloads: MutableList<Any>) {
+        firstTime = true
         holder.name.text = item.name
         holder.location.text = item.production_place
         var priceText = "Цен"
@@ -69,9 +72,18 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
             }
 
             override fun onRatingChange(p0: Float, p1: Float) {
-                reviewCallBack.onAddReviewClicked(item, position, p1.toDouble())
+                if (!firstTime) {
+                    reviewCallBack.onAddReviewClicked(item, position, p1.toDouble())
+                }
+                if (firstTime) {
+                    firstTime = false
+                }
             }
         })
+
+        holder.rateView.setOnClickListener {
+            shareCallback.onShareProductClicked(item.reviews.isNullOrEmpty(), holder.adapterPosition, item)
+        }
 
 //        holder.addReview.setOnClickListener {
 //            reviewCallBack.onAddReviewClicked(item, holder.adapterPosition)
@@ -101,6 +113,7 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
         val ratingStar: TextView = rootView.textView_rating_star
         val rates: TextView = rootView.textView_rates
         val addToFavourite: FrameLayout = rootView.relative_add
+        val rateView: LinearLayout = rootView.lyt_rate
     }
 
     interface AddPrice {
@@ -112,7 +125,7 @@ class ProductDelegate(context: Context, val addPriceCallback: AddPrice, val shar
     }
 
     interface ShareProduct {
-        fun onShareProductClicked()
+        fun onShareProductClicked(isEmptyReviews: Boolean, position: Int, selectedProduct: Product)
     }
 
     interface onAddToFavourite {

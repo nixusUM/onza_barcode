@@ -172,13 +172,18 @@
 
                 <LinearLayout
                     android:id="@+id/lyt_rate"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:layout_alignParentStart="true"
                     android:background="@drawable/left_corners_layout"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
-                    android:layout_marginBottom="12dp"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -203,14 +208,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_toRightOf="@+id/lyt_rate"
                     android:background="@drawable/right_corner_layout"
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -232,6 +235,8 @@
                         android:text="999"
                         android:textColor="#262A3C"
                         android:textSize="16sp" />
+
+                </LinearLayout>
 
                 </LinearLayout>
 

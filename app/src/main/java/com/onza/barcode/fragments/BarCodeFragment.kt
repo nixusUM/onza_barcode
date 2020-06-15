@@ -51,6 +51,7 @@ import com.onza.barcode.dialogs.addReview.AddReviewDialog
 import com.onza.barcode.history.HistoryFragment
 import com.onza.barcode.product.detail.ProductDetaislFragment
 import com.onza.barcode.product.list.ProductListFragment
+import com.onza.barcode.reviews.ReviewsFragment
 import com.onza.barcode.utils.Utils
 import kotlinx.android.synthetic.main.dialog_add_product_to_list.*
 import kotlinx.android.synthetic.main.dialog_price_submit.*
@@ -58,7 +59,6 @@ import kotlinx.android.synthetic.main.dialog_review_submit.*
 import kotlinx.android.synthetic.main.fragment_barcode.*
 import kotlinx.android.synthetic.main.fragment_barcode.progressBar
 import kotlinx.android.synthetic.main.fragment_barcode.rootView
-import kotlinx.android.synthetic.main.fragment_product_detail.*
 import kotlinx.android.synthetic.main.item_product_logo.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.*
 import kotlinx.android.synthetic.main.view_favourite_products.view.txt_more_Count
@@ -284,6 +284,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
             view_hint.visibility = View.GONE
             list_scanned.visibility = View.VISIBLE
         }
+
         var adapter = list_scanned.adapter as SimpleAdapter
         adapter.addItem(product, savedPosition)
         list_scanned.smoothScrollToPosition(adapter.itemCount - 1)
@@ -439,8 +440,12 @@ class BarCodeFragment: Fragment(), BarCodeView,
         eventListener!!.pushFragment(ProductDetaislFragment.getInstance(selectedProduct))
     }
 
-    override fun onShareProductClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onShareProductClicked(isEmptyReviews: Boolean, position: Int, selectedProduct: Product) {
+        if (isEmptyReviews) {
+            AddReviewDialog.getInstance(selectedProduct, position).show(this.childFragmentManager, "add review")
+        } else {
+            eventListener!!.pushFragment(ReviewsFragment.getInstance(selectedProduct))
+        }
     }
 
     override fun onAddToFavouriteClicked(selectedProduct: Product) {
@@ -450,7 +455,6 @@ class BarCodeFragment: Fragment(), BarCodeView,
     override fun onAddReviewClicked(selectedProduct: Product, position: Int, ratingCount: Double) {
         isRatingSending = true
         presenter.addReview(selectedProduct.id, ratingCount, position, this.gtin)
-//        AddReviewDialog.getInstance(selectedProduct, position).show(this.childFragmentManager, "add review")
     }
 
     private fun showAddProductToListDialog(selectedProduct: Product) {
