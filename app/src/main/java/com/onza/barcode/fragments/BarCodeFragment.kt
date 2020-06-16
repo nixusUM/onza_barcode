@@ -173,7 +173,7 @@ class BarCodeFragment: Fragment(), BarCodeView,
                 }
         }
 
-        presenter = BarCodeFragmentPresenter(activity!!, this)
+        presenter = BarCodeFragmentPresenter(activity!!, this, eventListener?.getToken())
 
         scanner_view.setOnClickListener {
             codeScanner.startPreview()

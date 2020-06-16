@@ -1,5 +1,6 @@
 package com.onza.barcode.category
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alterevit.gorodminiapp.library.MiniAppCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,12 +30,18 @@ import kotlinx.android.synthetic.main.activity_all_categories.*
 class CategoryListActivity: BottomSheetDialogFragment(), CategoryListView, CategoryInListDelegate.Callback {
 
     private lateinit var presenter: CategoryListActivityPresenter
+    private var eventListener: MiniAppCallback? = null
 
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
             .apply {
                 addDelegate(CategoryInListDelegate(context!!, this@CategoryListActivity))
             }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        eventListener = context as? MiniAppCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,7 +56,7 @@ class CategoryListActivity: BottomSheetDialogFragment(), CategoryListView, Categ
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = CategoryListActivityPresenter(this, context!!)
+        presenter = CategoryListActivityPresenter(this, context!!, eventListener?.getToken())
         view_back.setOnClickListener { parentFragment!!.childFragmentManager.popBackStack() }
 
         if (Utils().isInternetAvailable()) {

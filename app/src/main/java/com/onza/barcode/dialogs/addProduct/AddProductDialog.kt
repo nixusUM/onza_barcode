@@ -64,7 +64,7 @@ class AddProductDialog: BottomSheetDialogFragment(), AddProductView, ProductImag
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = AddProductPresenter(this, context!!, this)
+        presenter = AddProductPresenter(this, context!!, this, eventListener!!.getToken())
 
         if (!arguments!!.getString(GTIN).isNullOrEmpty()) {
             txt_barcode.setText(arguments!!.getString(GTIN))

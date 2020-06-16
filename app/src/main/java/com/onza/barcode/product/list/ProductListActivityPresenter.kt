@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Ilia Polozov on 29/January/2020
  */
 
-class ProductListActivityPresenter(val view: ProductListView, val context: Context) {
+class ProductListActivityPresenter(val view: ProductListView, val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -28,7 +28,7 @@ class ProductListActivityPresenter(val view: ProductListView, val context: Conte
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun navigateToDetail(product: Product, activity: MainActivity) {

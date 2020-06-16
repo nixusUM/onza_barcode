@@ -15,7 +15,7 @@ import java.net.UnknownHostException
  * Created by Ilia Polozov on 24/February/2020
  */
 
-class AddReviewPresenter (val context: Context, val view: AddReviewView) {
+class AddReviewPresenter (val context: Context, val view: AddReviewView, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -24,7 +24,7 @@ class AddReviewPresenter (val context: Context, val view: AddReviewView) {
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun addReview(productId: Int, rating: Double, shopId: Int, postive: String, negative: String, text: String) {

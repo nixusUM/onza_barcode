@@ -23,7 +23,7 @@ import java.util.*
  * Created by Ilia Polozov on 24/February/2020
  */
 
-class AddProductPresenter(val view: AddProductView, val context: Context, val fragment: BottomSheetDialogFragment) {
+class AddProductPresenter(val view: AddProductView, val context: Context, val fragment: BottomSheetDialogFragment, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -32,7 +32,7 @@ class AddProductPresenter(val view: AddProductView, val context: Context, val fr
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun onImagePick() {

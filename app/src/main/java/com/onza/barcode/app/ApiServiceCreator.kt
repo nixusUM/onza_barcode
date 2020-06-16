@@ -11,7 +11,7 @@ import android.content.Context
 
 object ApiServiceCreator {
 
-    fun createService(gson: Gson, context: Context): ApiService {
+    fun createService(token: String?, gson: Gson, context: Context): ApiService {
         val logInterceptor = HttpLoggingInterceptor()
                 .apply { level = HttpLoggingInterceptor.Level.BODY }
 
@@ -20,6 +20,7 @@ object ApiServiceCreator {
                     connectionPool(ConnectionPool(5, 10000L, TimeUnit.MILLISECONDS))
                     retryOnConnectionFailure(true)
                     addInterceptor(logInterceptor)
+                    addInterceptor(AuthInterceptor(token))
 //                    sslSocketFactory(sslContext.socketFactory, x509TrustManager)
                     readTimeout(15L, TimeUnit.SECONDS)
                     writeTimeout(15L, TimeUnit.SECONDS)
@@ -32,6 +33,29 @@ object ApiServiceCreator {
                 .client(client)
                 .build()
                 .create(ApiService::class.java)
+    }
+
+    class AuthInterceptor(val token: String?): Interceptor {
+
+        override fun intercept(chain: Interceptor.Chain?): Response? {
+            synchronized(lock) {
+                return chain?.let {
+                    it.request().let {
+                        val newRequest: Request =
+                                if(token != null) {
+                                    it.newBuilder().addHeader("Authorization", "Basic  $token").build()
+                                } else {
+                                    it.newBuilder().build()
+                                }
+                        chain.proceed(newRequest)
+                    }
+                }
+            }
+        }
+
+        companion object {
+            val lock = Any()
+        }
     }
 
 }

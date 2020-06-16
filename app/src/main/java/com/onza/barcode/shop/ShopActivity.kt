@@ -2,6 +2,7 @@ package com.onza.barcode.shop
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alterevit.gorodminiapp.library.MiniAppCallback
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -50,12 +52,18 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     private var lon = 0.0
 
     private lateinit var presenter: ShopActivityPresenter
+    private var eventListener: MiniAppCallback? = null
 
     private val adapterManager by lazy {
         AdapterDelegatesManager<List<*>>()
             .apply {
                 addDelegate(AllShopsDelegate(context!!, this@ShopActivity))
             }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        eventListener = context as? MiniAppCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,7 +77,7 @@ class ShopActivity: BottomSheetDialogFragment(), ShopView, AllShopsDelegate.Item
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = ShopActivityPresenter(this, context!!)
+        presenter = ShopActivityPresenter(this, context!!, eventListener?.getToken())
 
         if (arguments!!.getSerializable(SELECTED_PRODUCT) != null) {
             selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product

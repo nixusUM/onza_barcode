@@ -64,7 +64,7 @@ class HistoryFragment: Fragment(), HistoryView, HistoryDelegate.ItemClick, Histo
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = HistoryActivityPresenter(this, context!!)
+        presenter = HistoryActivityPresenter(this, context!!, eventListener?.getToken())
         cardView_scan.setOnClickListener { activity!!.onBackPressed() }
         view_back.setOnClickListener { activity!!.onBackPressed() }
         if (Utils().isInternetAvailable()) {

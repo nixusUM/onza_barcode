@@ -53,7 +53,7 @@ class ReviewsFragment: Fragment(), ReviewsView, ReviewsInListDelegate.ItemClick 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = ReviewsActivityPresenter(this, context!!)
+        presenter = ReviewsActivityPresenter(this, context!!, eventListener?.getToken())
         selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
         view_back.setOnClickListener { activity!!.onBackPressed() }
         contraint_add_review.setOnClickListener {

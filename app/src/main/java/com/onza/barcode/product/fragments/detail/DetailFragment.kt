@@ -71,7 +71,7 @@ class DetailFragment: Fragment(), DetailFragmentView, ReviewsDelegate.ItemClick 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = DetailFragmentPresenter(this, activity!!)
+        presenter = DetailFragmentPresenter(this, activity!!, eventListener?.getToken())
         val product = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
 
         if (locationPermissonsApproved()) {

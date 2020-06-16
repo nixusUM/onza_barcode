@@ -38,7 +38,7 @@ class AboutFragment : Fragment(), AboutFragmentView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = AboutFragmentPresenter(this, activity!!)
+        presenter = AboutFragmentPresenter(this, activity!!, eventListener?.getToken())
         selectdProduct = arguments!!.getSerializable(SLECTED_PRODUCT) as Product
         if (Utils().isInternetAvailable()) {
             presenter.getProductDetail(selectdProduct.id)

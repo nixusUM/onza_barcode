@@ -20,7 +20,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Ilia Polozov on 28/January/2020
  */
 
-class DetailFragmentPresenter(val view: DetailFragmentView, val activity: FragmentActivity) {
+class DetailFragmentPresenter(val view: DetailFragmentView, val activity: FragmentActivity, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -29,7 +29,7 @@ class DetailFragmentPresenter(val view: DetailFragmentView, val activity: Fragme
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, activity)
+        apiService = ApiServiceCreator.createService(token, gson, activity)
     }
 
     fun addToFavourites(id: Int, count: Int) {

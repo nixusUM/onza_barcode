@@ -69,7 +69,7 @@ class ProductListFragment: Fragment(), ProductListView, ProductInListDelegate.It
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = ProductListActivityPresenter(this, context!!)
+        presenter = ProductListActivityPresenter(this, context!!, eventListener?.getToken())
         view_back.setOnClickListener { activity!!.onBackPressed() }
     }
 

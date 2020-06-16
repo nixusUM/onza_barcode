@@ -47,7 +47,7 @@ class CompareFragment: Fragment(), CompareView, CompareListDelegate.ItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = CompareActivityPresenter(this, context!!)
+        presenter = CompareActivityPresenter(this, context!!, eventListener?.getToken())
 //        setStatusBarColor()
         cardView_scan.setOnClickListener { activity!!.onBackPressed() }
         view_back.setOnClickListener { activity!!.onBackPressed() }

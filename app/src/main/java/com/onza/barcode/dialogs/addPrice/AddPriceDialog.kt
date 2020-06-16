@@ -87,7 +87,7 @@ class AddPriceDialog: BottomSheetDialogFragment(), AddPriceView, ShopDelegate.It
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = AddPricePresenter(this, context!!)
+        presenter = AddPricePresenter(this, context!!, eventListener!!.getToken())
         selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
 
         if (locationPermissonsApproved()) {

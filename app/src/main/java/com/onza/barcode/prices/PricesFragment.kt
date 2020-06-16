@@ -68,7 +68,7 @@ class PricesFragment: Fragment(), BaseActivity, PriceActivityView, PricesDelegat
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        presenter = PricesActivityPresenter(this, context!!)
+        presenter = PricesActivityPresenter(this, context!!, eventListener?.getToken())
         selectedProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
         view_back.setOnClickListener { activity!!.onBackPressed() }
         contraint_add_price.setOnClickListener {

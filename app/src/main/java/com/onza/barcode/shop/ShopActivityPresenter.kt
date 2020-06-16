@@ -15,7 +15,7 @@ import java.util.ArrayList
  * Created by Ilia Polozov on 25/January/2020
  */
 
-class ShopActivityPresenter (val view: ShopView, val context: Context) {
+class ShopActivityPresenter (val view: ShopView, val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -26,7 +26,7 @@ class ShopActivityPresenter (val view: ShopView, val context: Context) {
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getNeearShops(lat: Double, lon: Double, query: String, page: Int) {

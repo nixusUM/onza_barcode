@@ -81,7 +81,7 @@ class AddReviewDialog: BottomSheetDialogFragment(), AddReviewView, ShopDelegate.
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = AddReviewPresenter(context!!, this)
+        presenter = AddReviewPresenter(context!!, this, eventListener?.getToken())
         selectdProduct = arguments!!.getSerializable(SELECTED_PRODUCT) as Product
 
         if (locationPermissonsApproved()) {

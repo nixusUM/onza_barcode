@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class CompareActivityPresenter (val view: CompareView,
-                                val context: Context) {
+                                val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -24,7 +24,7 @@ class CompareActivityPresenter (val view: CompareView,
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getCompares() {

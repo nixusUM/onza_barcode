@@ -19,7 +19,7 @@ import java.text.FieldPosition
  * Created by Ilia Polozov on 04/January/2020
  */
 
-class BarCodeFragmentPresenter(private var activity: Activity, private var view: BarCodeView) {
+class BarCodeFragmentPresenter(private var activity: Activity, private var view: BarCodeView, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -29,7 +29,7 @@ class BarCodeFragmentPresenter(private var activity: Activity, private var view:
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, activity)
+        apiService = ApiServiceCreator.createService(token, gson, activity)
     }
 
     fun getProductByBarCode(gtin: String, lat: Double, lon: Double) {

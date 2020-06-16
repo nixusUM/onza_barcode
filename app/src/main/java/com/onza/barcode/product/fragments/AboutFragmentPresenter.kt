@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Ilia Polozov on 28/February/2020
  */
 
-class AboutFragmentPresenter(val view: AboutFragmentView, val activity: FragmentActivity) {
+class AboutFragmentPresenter(val view: AboutFragmentView, val activity: FragmentActivity, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -21,7 +21,7 @@ class AboutFragmentPresenter(val view: AboutFragmentView, val activity: Fragment
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, activity)
+        apiService = ApiServiceCreator.createService(token, gson, activity)
     }
 
     fun getProductDetail(id: Int) {

@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Ilia Polozov on 09/February/2020
  */
 
-class PricesActivityPresenter(val view: PriceActivityView, val context: Context) {
+class PricesActivityPresenter(val view: PriceActivityView, val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -22,7 +22,7 @@ class PricesActivityPresenter(val view: PriceActivityView, val context: Context)
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getProductPrices(productId: Int, lat: Double, lon: Double) {

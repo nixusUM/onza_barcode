@@ -47,7 +47,7 @@ class CompareProdutsFragment: Fragment(), CompareProdutsView, CompareProductDele
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        presenter = CompareProdutsActivityPresenter(this, context!!)
+        presenter = CompareProdutsActivityPresenter(this, context!!, eventListener?.getToken())
 
         view_back.setOnClickListener { activity!!.onBackPressed() }
         toolbar_title.text = arguments!!.getString(NAME)

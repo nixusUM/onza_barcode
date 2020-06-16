@@ -18,7 +18,7 @@ import java.util.*
  * Created by Ilia Polozov on 19/January/2020
  */
 
-class HistoryActivityPresenter(val view: HistoryView, val context: Context) {
+class HistoryActivityPresenter(val view: HistoryView, val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -28,7 +28,7 @@ class HistoryActivityPresenter(val view: HistoryView, val context: Context) {
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getScanHistory(page: Int) {

@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
  */
 
 class CategoryListActivityPresenter(val view: CategoryListView,
-                                    val context: Context) {
+                                    val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -23,7 +23,7 @@ class CategoryListActivityPresenter(val view: CategoryListView,
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getCategories() {

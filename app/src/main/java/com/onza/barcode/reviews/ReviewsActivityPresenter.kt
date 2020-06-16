@@ -15,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by Ilia Polozov on 09/February/2020
  */
 
-class ReviewsActivityPresenter(val view: ReviewsView, val context: Context) {
+class ReviewsActivityPresenter(val view: ReviewsView, val context: Context, val token: String?) {
 
     private var gson: Gson
     private var apiService: ApiService
@@ -25,7 +25,7 @@ class ReviewsActivityPresenter(val view: ReviewsView, val context: Context) {
         gson = GsonBuilder()
             .setLenient()
             .create()
-        apiService = ApiServiceCreator.createService(gson, context)
+        apiService = ApiServiceCreator.createService(token, gson, context)
     }
 
     fun getReviews(productId: Int, page: Int) {
